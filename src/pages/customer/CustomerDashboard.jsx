@@ -59,7 +59,7 @@ export default function CustomerDashboard() {
 
       <Row gutter={[16, 16]} style={{ marginTop: 24 }}>
         <Col xs={24} lg={16}>
-          <Card title="📦 Recent Orders">
+          <Card title=" Recent Orders">
             <Table dataSource={customerData.recentOrders} columns={[
               { title: 'Order ID', dataIndex: 'id', key: 'id' },
               { title: 'Vendor', dataIndex: 'vendor', key: 'vendor' },
@@ -71,7 +71,7 @@ export default function CustomerDashboard() {
         </Col>
 
         <Col xs={24} lg={8}>
-          <Card title="👤 Profile" style={{ marginBottom: 16 }}>
+          <Card title=" Profile" style={{ marginBottom: 16 }}>
             <div style={{ lineHeight: 2 }}>
               <div><strong>Email:</strong> {customerData.email}</div>
               <div><strong>Phone:</strong> {customerData.phone}</div>
@@ -80,13 +80,13 @@ export default function CustomerDashboard() {
             </div>
           </Card>
 
-          <Card title="❤️ Wishlist">
-            <List dataSource={customerData.wishlist} renderItem={(item) => <List.Item>❤️ {item}</List.Item>} />
+          <Card title=" Wishlist">
+            <List dataSource={customerData.wishlist} renderItem={(item) => <List.Item> {item}</List.Item>} />
           </Card>
         </Col>
       </Row>
 
-      <Card title="📍 Saved Addresses" style={{ marginTop: 24 }}>
+      <Card title="Saved Addresses" style={{ marginTop: 24 }}>
         <Row gutter={[16, 16]}>
           {customerData.addresses.map((addr) => (
             <Col xs={24} sm={12} key={addr.label}>

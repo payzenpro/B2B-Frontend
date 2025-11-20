@@ -1,11 +1,14 @@
 import ProtectedRoute from "../components/ProtectedRoute.jsx";
-import CustomerLayout from "../customer/CustomerLayout.jsx";
-import CustomerDashboard from "../customer/CustomerDashboard.jsx";
-import CustomerProducts from "../customer/CustomerProducts.jsx";
-import CustomerOrders from "../customer/CustomerOrders.jsx";
-import CustomerProfile from "../customer/CustomerProfile.jsx";
-import CustomerCart from "../customer/CustomerCart.jsx";
-import CustomerOrderDetails from "../customer/CustomerOrderDetails.jsx";
+import CustomerLayout from "../components/layouts/CustomerLayout.jsx";
+import CustomerProducts from "../components/products/CustomerProducts.jsx";
+import CustomerOrders from "../components/orders/CustomerOrders.jsx";
+
+import CustomerDashboard from "../pages/customer/CustomerDashboard.jsx";
+
+
+import CustomerProfile from "../pages/customer/CustomerProfile.jsx";
+import CustomerCart from "../pages/customer/CustomerCart.jsx";
+import CustomerOrderDetails from "../pages/customer/CustomerOrderDetails.jsx";
 
 function CustomerWishlist() { return <div style={{ padding: '20px' }}><h2>Wishlist</h2></div>; }
 function CustomerAddresses() { return <div style={{ padding: '20px' }}><h2>My Addresses</h2></div>; }

@@ -1,9 +1,6 @@
 import { createContext, useState, useEffect } from "react";
-
-// 1️⃣ Create Context
 export const UserContext = createContext();
 
-// 2️⃣ Create Provider Component
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(() => {
     const savedUser = localStorage.getItem("user");

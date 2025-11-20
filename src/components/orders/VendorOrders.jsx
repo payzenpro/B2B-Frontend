@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Table, Tag, Select, message, Button } from "antd";
-import { getOrders, updateOrderStatus } from '../app/api'; 
+import { getOrders, updateOrderStatus } from '../../app/api'; 
+
 
 export default function VendorOrders() {
   const [orders, setOrders] = useState([]);

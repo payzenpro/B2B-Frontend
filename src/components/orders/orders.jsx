@@ -1,6 +1,6 @@
 import { Table, Card, Tag, Button, Empty } from 'antd';
 import { useEffect, useState } from 'react';
-import { getOrders } from '../app/api';
+import { getOrders } from '../../app/api';
 
 export default function Orders() {
   const [orders, setOrders] = useState([]);

@@ -75,8 +75,6 @@ export default function CustomerCart() {
       message.error('Failed to clear cart');
     }
   };
-
-  // Group items by category
   const itemsByCategory = cartItems.reduce((acc, item) => {
     const category = item.category || 'Other';
     if (!acc[category]) acc[category] = [];
@@ -96,7 +94,7 @@ export default function CustomerCart() {
     <div>
       <div style={{ marginBottom: 24, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <div>
-          <h2 style={{ margin: 0, marginBottom: 8 }}>🛒 Shopping Cart</h2>
+          <h2 style={{ margin: 0, marginBottom: 8 }}> Shopping Cart</h2>
           <p style={{ color: '#888', margin: 0 }}>{cartItems.length} items in cart</p>
         </div>
         {cartItems.length > 0 && (
@@ -228,7 +226,7 @@ export default function CustomerCart() {
             </div>
 
             <div style={{ background: '#f6f8fb', padding: 12, borderRadius: 8, marginTop: 16 }}>
-              <div style={{ fontSize: 12, fontWeight: 600, marginBottom: 8 }}>💳 Payment Methods</div>
+              <div style={{ fontSize: 12, fontWeight: 600, marginBottom: 8 }}> Payment Methods</div>
               <div style={{ fontSize: 12, color: '#666' }}>
                 ✓ Credit Card<br/>
                 ✓ Debit Card<br/>
@@ -239,7 +237,7 @@ export default function CustomerCart() {
             </div>
 
             <div style={{ background: '#f6f8fb', padding: 12, borderRadius: 8, marginTop: 12 }}>
-              <div style={{ fontSize: 12, fontWeight: 600, marginBottom: 8 }}>🎁 Offers Available</div>
+              <div style={{ fontSize: 12, fontWeight: 600, marginBottom: 8 }}> Offers Available</div>
               <Tag color="green" style={{ marginBottom: 8 }}>30% off on first order</Tag><br/>
               <Tag color="blue">Free delivery above ₹50000</Tag>
             </div>

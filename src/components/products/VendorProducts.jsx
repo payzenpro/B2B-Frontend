@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Table, Button, Modal, Form, Input, InputNumber, Select, Upload, Space, message, Popconfirm, Tag, Card, Row, Col } from "antd";
 import { SearchOutlined, PlusOutlined, EditOutlined, DeleteOutlined, UploadOutlined } from "@ant-design/icons";
-import { getProducts, createProduct, updateProduct, deleteProduct } from "../app/api";
+import { getProducts, createProduct, updateProduct, deleteProduct } from "../../app/api";
 
 export default function VendorProductSetup() {
   const [products, setProducts] = useState([]);

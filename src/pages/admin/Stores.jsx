@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Table, Button, Modal, Form, Input, Select, Space, message, Popconfirm, Tag, Card } from "antd";
 import { SearchOutlined, PlusOutlined, EditOutlined, DeleteOutlined, PhoneOutlined, EnvironmentOutlined, MailOutlined } from "@ant-design/icons";
-import { getStores, createStore, updateStore, deleteStore } from '../app/api.js';
+import { getStores, createStore, updateStore, deleteStore } from '../../app/api.js';
 
 export default function Stores() {
   const [stores, setStores] = useState([]);

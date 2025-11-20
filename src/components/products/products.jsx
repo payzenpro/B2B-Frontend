@@ -1,6 +1,6 @@
 
 import { useState, useEffect } from 'react';
-import { getProducts, createProduct } from '../app/api';
+import { getProducts, createProduct } from '../../app/api';
 import { Table, Button, Modal, Form, Input, InputNumber, message } from 'antd';
 
 export default function Products() {

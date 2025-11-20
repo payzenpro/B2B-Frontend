@@ -16,7 +16,7 @@ export default function Dashboard() {
     try {
       const token = localStorage.getItem('token');
       
-      // API से data fetch करो
+    
       const response = await fetch(`${API_BASE_URL}/auth/analytics`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });

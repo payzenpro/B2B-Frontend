@@ -6,7 +6,7 @@ const getAuthHeader = () => {
 };
 
 // ==================== PRODUCTS ====================
-export const getProducts = async () => {
+export const getProduct = async () => {
   try {
     const response = await fetch(`${API_BASE_URL}/product`, {
       headers: getAuthHeader(),
@@ -162,7 +162,7 @@ export const getVendors = async () => {
 // ==================== CUSTOMERS ====================
 export const getCustomers = async () => {
   try {
-    const response = await fetch(`${API_BASE_URL}/customers`, { // CHANGED: /customer → /customers
+    const response = await fetch(`${API_BASE_URL}/customers`, {
       headers: getAuthHeader()
     });
     if (!response.ok) return [];
@@ -176,7 +176,7 @@ export const getCustomers = async () => {
 
 export const createCustomer = async (customerData) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/customers`, { // CHANGED
+    const response = await fetch(`${API_BASE_URL}/customers`, { 
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -192,7 +192,7 @@ export const createCustomer = async (customerData) => {
 
 export const updateCustomer = async (id, customerData) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/customers/${id}`, { // CHANGED
+    const response = await fetch(`${API_BASE_URL}/customers/${id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -938,17 +938,6 @@ export const updateVendorStore = async (id, storeData) => {
   }
 };
 
-// export const deleteVendorStore = async (id) => {
-//   try {
-//     const response = await fetch(`${API_BASE_URL}/vendor/stores/${id}`, {
-//       method: 'DELETE',
-//       headers: getAuthHeader()
-//     });
-//     return await response.json();
-//   } catch (error) {
-//     throw error;
-//   }
-// };
 export const deleteVendorStore = async (id) => {
   const response = await fetch(`${API_BASE_URL}/vendor/stores/${id}`, {
     method: 'DELETE',
@@ -1030,60 +1019,3 @@ export const clearCart = async () => {
 };
 
 
-
-// // Customer Orders
-// export const getCustomerOrders = async () => {
-//   try {
-//     const response = await fetch(`${API_BASE_URL}/customer/orders`, {
-//       headers: getAuthHeader()
-//     });
-//     if (!response.ok) return [];
-//     const data = await response.json();
-//     return data.success ? data.data : [];
-//   } catch (error) {
-//     console.error('Error:', error);
-//     return [];
-//   }
-// };
-
-// export const getOrderById = async (id) => {
-//   try {
-//     const response = await fetch(`${API_BASE_URL}/customer/orders/${id}`, {
-//       headers: getAuthHeader()
-//     });
-//     if (!response.ok) return null;
-//     const data = await response.json();
-//     return data.success ? data.data : null;
-//   } catch (error) {
-//     console.error('Error:', error);
-//     return null;
-//   }
-// };
-
-// export const createOrder = async (orderData) => {
-//   try {
-//     const response = await fetch(`${API_BASE_URL}/customer/orders`, {
-//       method: 'POST',
-//       headers: {
-//         'Content-Type': 'application/json',
-//         ...getAuthHeader()
-//       },
-//       body: JSON.stringify(orderData)
-//     });
-//     return await response.json();
-//   } catch (error) {
-//     throw error;
-//   }
-// };
-
-// export const cancelOrder = async (id) => {
-//   try {
-//     const response = await fetch(`${API_BASE_URL}/customer/orders/${id}/cancel`, {
-//       method: 'PUT',
-//       headers: getAuthHeader()
-//     });
-//     return await response.json();
-//   } catch (error) {
-//     throw error;
-//   }
-// };

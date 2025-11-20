@@ -142,8 +142,8 @@ export default function VendorPushNotifications() {
       width: 130,
       render: (_, record) => (
         <div style={{ fontSize: 12 }}>
-          <div>📤 {record.recipients || 0}</div>
-          <div>🖱️ {record.clicks || 0}</div>
+          <div> {record.recipients || 0}</div>
+          <div> {record.clicks || 0}</div>
         </div>
       )
     },
@@ -174,7 +174,7 @@ export default function VendorPushNotifications() {
   return (
     <div>
       <div style={{ marginBottom: 16, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <h2 style={{ margin: 0 }}>🔔 Push Notifications</h2>
+        <h2 style={{ margin: 0 }}> Push Notifications</h2>
         <Button
           type="primary"
           icon={<PlusOutlined />}

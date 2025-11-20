@@ -1,25 +1,29 @@
 import ProtectedRoute from "../components/ProtectedRoute.jsx";
-import AdminLayout from "../layouts/AdminLayout.jsx";
-import Dashboard from "../pages/Dashboard.jsx";
+import AdminLayout from "../components/layouts/AdminLayout.jsx";
+import Products from "../components/products/products.jsx";
+import Orders from "../components/orders/orders.jsx";
+
+import Dashboard from "../admin/Dashboard.jsx";
 import Users from "../pages/Users.jsx";
-import Orders from "../pages/Orders.jsx";
-import Products from "../pages/Products.jsx";
-import FlashSales from "../pages/FlashSales.jsx";
-import Campaigns from "../pages/Campaigns.jsx";  
-import Coupons from "../pages/Coupons.jsx";
-import Categories from "../pages/Categories.jsx";
-import Attributes from "../pages/Attributes.jsx";
-import Stores from "../pages/Stores.jsx";
-import AddStores from "../pages/AddStores.jsx";
-import POS from "../pages/POS.jsx";
-import AdminVendorList from "../admin/AdminVendorList.jsx";
-import RefundList from "../admin/RefundList.jsx";
-import BannerList from "../admin/BannerList.jsx";
-import AdminVendorDashboard from "../admin/AdminVendorDashboard.jsx";
-import AdminCustomerList from "../admin/AdminCustomerList.jsx";
-import AdminCustomerDashboard from "../admin/AdminCustomerDashboard.jsx";
-import AdminVendorDashboardView from "../admin/AdminVendorDashboardView.jsx";
-import AdminCustomerDashboardView from "../admin/AdminCustomerDashboardView.jsx";
+
+
+import FlashSales from "../pages/admin/FlashSales.jsx";
+ 
+import Stores from "../pages/admin/Stores.jsx";
+import AddStores from "../pages/admin/AddStores.jsx";
+import POS from "../pages/admin/POS.jsx";
+import AdminVendorList from "../pages/admin/AdminVendorList.jsx";
+import RefundList from "../pages/admin/RefundList.jsx";
+import BannerList from "../pages/admin/BannerList.jsx";
+import AdminVendorDashboard from "../pages/admin/AdminVendorDashboard.jsx";
+import AdminCustomerList from "../pages/admin/AdminCustomerList.jsx";
+import AdminCustomerDashboard from "../pages/admin/AdminCustomerDashboard.jsx";
+import AdminVendorDashboardView from "../pages/admin/AdminVendorDashboardView.jsx";
+import AdminCustomerDashboardView from "../pages/admin/AdminCustomerDashboardView.jsx";
+import Attributes from "../pages/admin/Attributes.jsx";
+import Categories from "../pages/admin/Categories.jsx";
+import Coupons from "../pages/admin/Coupons.jsx";
+
 
 export const adminRoutes = {
   element: <AdminLayout />,
@@ -30,7 +34,7 @@ export const adminRoutes = {
     { path: "orders", element: <ProtectedRoute requiredRole="superadmin"><Orders /></ProtectedRoute> },
     { path: "refunds", element: <ProtectedRoute requiredRole="superadmin"><RefundList /></ProtectedRoute> },
     { path: "flash-sales", element: <ProtectedRoute requiredRole="superadmin"><FlashSales /></ProtectedRoute> },
-    { path: "campaigns", element: <ProtectedRoute requiredRole="superadmin"><Campaigns /></ProtectedRoute> },
+  
     { path: "banners", element: <ProtectedRoute requiredRole="superadmin"><BannerList /></ProtectedRoute> }, 
     { path: "coupons", element: <ProtectedRoute requiredRole="superadmin"><Coupons /></ProtectedRoute> },
     { path: "categories", element: <ProtectedRoute requiredRole="superadmin"><Categories /></ProtectedRoute> },
@@ -44,5 +48,6 @@ export const adminRoutes = {
     { path: "customer-list/:customerId/dashboard", element: <ProtectedRoute requiredRole="superadmin"><AdminCustomerDashboard /></ProtectedRoute> },
     { path: "vendor-dashboard/:vendorId", element: <ProtectedRoute requiredRole="superadmin"><AdminVendorDashboardView /></ProtectedRoute> },
     { path: "customer-dashboard/:customerId", element: <ProtectedRoute requiredRole="superadmin"><AdminCustomerDashboardView /></ProtectedRoute> },
+      
   ]
 };

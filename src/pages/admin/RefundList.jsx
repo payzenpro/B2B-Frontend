@@ -39,7 +39,7 @@ export default function RefundList() {
         }
       });
 
-      console.log('✅ Response:', response.data);
+      console.log(' Response:', response.data);
 
       if (response.data.success && Array.isArray(response.data.data)) {
         setRefunds(response.data.data);
@@ -78,14 +78,14 @@ export default function RefundList() {
       await axios.put(`${API_BASE_URL}/refunds/${refundId}/approve`, {}, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
-      message.success('✅ Refund approved!');
+      message.success(' Refund approved!');
       fetchRefunds();
     } catch (error) {
-      console.error('❌ Approve Error:', error);
+      console.error('Approve Error:', error);
       if (error.response?.status === 404) {
-        message.error('❌ Approve endpoint not found. Check routes.');
+        message.error(' Approve endpoint not found. Check routes.');
       } else {
-        message.error('❌ Error approving refund');
+        message.error(' Error approving refund');
       }
     }
   };
@@ -96,14 +96,14 @@ export default function RefundList() {
       await axios.put(`${API_BASE_URL}/refunds/${refundId}/reject`, {}, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
-      message.success('✅ Refund rejected!');
+      message.success(' Refund rejected!');
       fetchRefunds();
     } catch (error) {
-      console.error('❌ Reject Error:', error);
+      console.error(' Reject Error:', error);
       if (error.response?.status === 404) {
-        message.error('❌ Reject endpoint not found. Check routes.');
+        message.error(' Reject endpoint not found. Check routes.');
       } else {
-        message.error('❌ Error rejecting refund');
+        message.error(' Error rejecting refund');
       }
     }
   };

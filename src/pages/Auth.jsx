@@ -30,13 +30,13 @@ export default function Auth() {
         message.error(data.message || 'Login failed');
         return;
       }
-      // Here data.user is used instead of data.data
+      
       if (!data.token || !data.user) {
         message.error('Invalid response');
         return;
       }
 
-      // Save token and user info correctly
+     
       localStorage.setItem('token', data.token);
       localStorage.setItem('user', JSON.stringify(data.user));
       localStorage.setItem('role', data.user.role);
@@ -253,7 +253,7 @@ export default function Auth() {
             },
             {
               key: 'register',
-              label: '📝 Register',
+              label: ' Register',
               children: (
                 <>
                   <Alert

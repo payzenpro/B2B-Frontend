@@ -19,7 +19,7 @@ export default function CustomerOrders() {
         return;
       }
 
-      const res = await fetch(`${API_BASE_URL}/customer/orders`, {
+      const res = await fetch(`${API_BASE_URL}/orders`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -134,7 +134,7 @@ export default function CustomerOrders() {
 
   return (
     <Card
-      title="📦 My Orders"
+      title=" My Orders"
       extra={
         <Button onClick={fetchOrders} loading={loading}>
           Refresh
