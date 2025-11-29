@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Table, Button, Modal, Form, Input, InputNumber, Select, DatePicker, Space, message, Popconfirm, Tag, Card, Row, Col, Statistic } from "antd";
 import { SearchOutlined, PlusOutlined, EditOutlined, DeleteOutlined, CopyOutlined } from "@ant-design/icons";
 import dayjs from 'dayjs';
-import { getCoupons, createCoupon, updateCoupon, deleteCoupon } from '../app/api';
+import { getCoupons, createCoupon, updateCoupon, deleteCoupon } from '../../app/api';
 
 export default function VendorCoupons() {
   const [coupons, setCoupons] = useState([]);

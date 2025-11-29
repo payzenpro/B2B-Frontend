@@ -2,34 +2,77 @@
 import { createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom';
 import Home from './pages/Home';
 import Auth from './pages/Auth';
+import Cart from './pages/Cart';
+import BuyNow from "./pages/BuyNow";
+
+
 import RoleBasedLayout from './layouts/RoleBasedLayout';
 import ProtectedRoute from './components/ProtectedRoute';
-//import AdminLayout from './components/layouts/AdminLayout';
-//import VendorLayout from './components/layouts/VendorLayout';
-// CustomerLayout from './components/layouts/CustomerLayout';
 
-// Import dashboard pages
-import Dashboard from './pages/admin/Dashboard'; 
+
+
+import Dashboard from './components/Dashboard';
+ import CustomerDashboard from './components/CustomerDashboard';
+import VendorDashboard from './pages/vendor/VendorDashboard.jsx';
+
+
 
 
 const router = createBrowserRouter([
   { path: '/', element: <Home /> },
-  { path: '/auth', element: <Auth /> },
+   { path: '/auth', element: <Auth /> },
+   { path: '/cart', element: <Cart />},
+   {path: '/buy-now', element: <BuyNow />},
+
+    
+  
+
 
   {
-    path: '/',
+    path: '/Dashboard',
     element: (
       <ProtectedRoute>
         <RoleBasedLayout />
       </ProtectedRoute>
     ),
-    children: [
-      { path: 'dashboard', element: <Dashboard /> },
+
+  
+   children: [
+      { index: true, element: <Dashboard /> }
      
-    ],
+
+     
+   ]
+  },
+   {
+    path: '/vendor',
+    element: (
+      <ProtectedRoute>
+        <RoleBasedLayout />
+      </ProtectedRoute>
+    ),
+
+  children: [
+     { index: true, element: <VendorDashboard /> } 
+     
+   ]
+  },
+    {
+    path: '/Customer',
+    element: (
+      <ProtectedRoute>
+        <RoleBasedLayout />
+      </ProtectedRoute>
+    ),
+
+  children: [
+     { index: true, element: <CustomerDashboard /> } 
+     
+   ]
   },
 
   
+ 
   { path: '*', element: <Navigate to="/auth" replace /> },
 ]);
 

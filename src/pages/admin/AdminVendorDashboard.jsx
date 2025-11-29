@@ -30,14 +30,14 @@ export default function AdminVendorDashboard() {
     ]
   });
 
-  // Earnings Graph Data - Pie Chart
+  // Earnings Graph Date
   const netEarning = vendorData.totalEarning - vendorData.commission;
   const earningsChartData = [
     { name: 'Net Earning', value: netEarning, color: '#52c41a' },
     { name: 'Commission', value: vendorData.commission, color: '#ff4d4f' }
   ];
 
-  // Bar Chart Data - Monthly Earnings
+  // Bar Chart Data 
   const monthlyEarningsData = [
     { month: 'Aug', earning: 95000, commission: 9500 },
     { month: 'Sep', earning: 98000, commission: 9800 },
@@ -69,9 +69,9 @@ export default function AdminVendorDashboard() {
   const handleSave = (values) => {
     if (isEditMode) {
       setVendorData({ ...vendorData, ...values });
-      alert('✅ Vendor Updated!');
+      alert(' Vendor Updated!');
     } else {
-      alert('✅ Vendor Added!');
+      alert(' Vendor Added!');
     }
     setIsModalOpen(false);
   };
@@ -105,7 +105,7 @@ export default function AdminVendorDashboard() {
       </div>
 
       {/* Order Statistics */}
-      <h3>📦 Order Statistics</h3>
+      <h3> Order Statistics</h3>
       <Row gutter={[16, 16]}>
         <Col xs={24} sm={12} md={6}><Card><Statistic title="Confirmed" value={vendorData.confirmed} icon={<ShoppingCartOutlined />} valueStyle={{ color: '#1890ff' }} /></Card></Col>
         <Col xs={24} sm={12} md={6}><Card><Statistic title="Processing" value={vendorData.cooking} valueStyle={{ color: '#faad14' }} /></Card></Col>

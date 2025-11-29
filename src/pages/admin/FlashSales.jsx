@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Table, Button, Modal, Form, Input, InputNumber, Select, DatePicker, Space, message, Popconfirm, Tag } from "antd";
 import { SearchOutlined, PlusOutlined, EditOutlined, DeleteOutlined, FireOutlined } from "@ant-design/icons";
 import dayjs from 'dayjs';
-import { getFlashsales, createFlashsale, updateFlashsale, deleteFlashsale } from '../app/api.js';
+import { getFlashsales, createFlashsale, updateFlashsale, deleteFlashsale } from '../../app/api.js';
 
 export default function FlashSales() {
   const [sales, setSales] = useState([]);

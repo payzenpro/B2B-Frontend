@@ -1,6 +1,6 @@
 
 import { useState, useEffect } from 'react';
-import { getProducts, createProduct } from '../../app/api';
+import { getProduct, createProduct } from '../../app/api';
 import { Table, Button, Modal, Form, Input, InputNumber, message } from 'antd';
 
 export default function Products() {
@@ -15,7 +15,7 @@ export default function Products() {
 
   const fetchProducts = async () => {
     try {
-      const data = await getProducts();
+      const data = await getProduct();
       setProducts(data);
     } catch (error) {
       console.error('Error:', error);

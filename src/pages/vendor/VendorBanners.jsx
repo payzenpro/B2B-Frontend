@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Table, Card, Button, Modal, Form, Input, Switch, message, Popconfirm, Alert } from "antd";
 import { PlusOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
-import { getBanners, createBanner, updateBanner, deleteBanner } from '../app/api';
+import { getBanners, createBanner, updateBanner, deleteBanner } from '../../app/api';
 
 export default function VendorBanners() {
   const [banners, setBanners] = useState([]);

@@ -1,59 +1,41 @@
 
-
 import { createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom';
 import 'antd/dist/reset.css';
 
 import Home from './pages/Home';
 import Auth from './pages/Auth';
 import Cart from './pages/Cart';
+
 import RoleBasedLayout from './components/layouts/RoleBasedLayout';
 import ProtectedRoute from './components/ProtectedRoute';
+import ProductDetails from './pages/ProductDetails';
 
 
-// Import dashboard pages
-// import Dashboard from './admin/Dashboard';
-// import VendorDashboard from './vendor/VendorDashboard';
-// import CustomerDashboard from './customer/CustomerDashboard';
+
+
+import { adminRoutes } from './routes/adminRoutes';
+import { vendorRoutes } from './routes/vendorRoutes';
+import { customerRoutes } from './routes/customerRoutes';
+
+
+import CustomerLogin from "./pages/CustomerLogin.jsx";
+import VendorLogin from "./pages/VendorLogin.jsx";
+import SuperadminLogin from "./pages/SuperadminLogin.jsx";
 
 const router = createBrowserRouter([
   { path: '/', element: <Home /> },
   { path: '/auth', element: <Auth /> },
   { path: '/cart', element: <Cart />},
+  {path:  '/product/:id',  element: <ProductDetails />},
+  { path: '/login/customer', element: <CustomerLogin />},
+  { path: '/login/vendor', element: <VendorLogin />} ,
+  { path: '/login/superadmin', element: <SuperadminLogin />} ,
 
-  // Superadmin routes
-  {
-    path: '/dashboard',
-    element: (
-      <ProtectedRoute requiredRole="superadmin">
-        <RoleBasedLayout />
-      </ProtectedRoute>
-    ),
+  adminRoutes, vendorRoutes, customerRoutes,  
+
   
-  },
 
-  // Vendor routes
-  {
-    path: '/vendor/dashboard',
-    element: (
-      <ProtectedRoute requiredRole="vendor">
-        <RoleBasedLayout />
-      </ProtectedRoute>
-    ),
-   
-  },
-
-  // Customer routes
-  {
-    path: '/customer/dashboard',
-    element: (
-      <ProtectedRoute requiredRole="customer">
-        <RoleBasedLayout />
-      </ProtectedRoute>
-    ),
-    
-  },
-
-  { path: '*', element: <Navigate to="/auth" replace /> },
+  // { path: '*', element: <Navigate to="/auth" replace /> },
 ]);
 
 function App() {

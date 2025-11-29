@@ -16,6 +16,7 @@ export default function UserProfile() {
       userRole = (userData.role || 'user').toUpperCase();
     }
   } catch (e) {
+    
     console.log('User data error:', e);
   }
 
@@ -23,7 +24,7 @@ export default function UserProfile() {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
     localStorage.removeItem('role');
-    navigate('/auth');
+    // navigate('/auth');
   };
 
   const userInitial = userEmail?.charAt(0).toUpperCase() || 'U';

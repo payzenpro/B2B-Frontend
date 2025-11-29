@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Table, Button, Modal, Form, Input, Select, Space, message, Popconfirm, Tag, Card } from "antd";
 import { SearchOutlined, PlusOutlined, EditOutlined, DeleteOutlined, BgColorsOutlined } from "@ant-design/icons";
-import { getAttributes, createAttribute, updateAttribute, deleteAttribute } from '../app/api.js';
+import { getAttributes, createAttribute, updateAttribute, deleteAttribute } from '../../app/api.js';
 
 export default function Attributes() {
   const [attributes, setAttributes] = useState([]);

@@ -3,9 +3,14 @@ import { Card, Form, Input, Button, message, Tabs, Select, Alert, Divider } from
 import { useNavigate } from 'react-router-dom';
 import { LockOutlined, MailOutlined, UserOutlined, ShopOutlined, PhoneOutlined } from '@ant-design/icons';
 
-const API_BASE_URL = 'http://localhost:4000/api/auth';
+
+
+
+const API_BASE_URL = 'http://localhost:4000/api';
+const AUTH_API_URL = `${API_BASE_URL}/auth`;
 
 export default function Auth() {
+  
   const [loginForm] = Form.useForm();
   const [registerForm] = Form.useForm();
   const navigate = useNavigate();
@@ -13,70 +18,54 @@ export default function Auth() {
   const [registerLoading, setRegisterLoading] = useState(false);
   const [registerRole, setRegisterRole] = useState('customer');
 
+  // Handle Login
   const handleLogin = async values => {
     setLoginLoading(true);
     try {
-      console.log(' Login attempt:', values.email);
-
-      const response = await fetch(`${API_BASE_URL}/login`, {
+      const response = await fetch(`${AUTH_API_URL}/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: values.email, password: values.password }),
       });
-
       const data = await response.json();
 
       if (!response.ok) {
         message.error(data.message || 'Login failed');
         return;
       }
-      
       if (!data.token || !data.user) {
         message.error('Invalid response');
         return;
       }
-
-     
       localStorage.setItem('token', data.token);
       localStorage.setItem('user', JSON.stringify(data.user));
       localStorage.setItem('role', data.user.role);
       localStorage.setItem('userId', data.user._id);
 
-      message.success(' Login successful!');
-
+      message.success('Login successful!');
       setTimeout(() => {
-        const role = data.user.role;
-        console.log(' User Role:', role);
-
-        if (role === 'superadmin') {
-          console.log('Redirecting to /dashboard (Superadmin)');
-          navigate('/dashboard');
-        } else if (role === 'vendor') {
-          console.log('Redirecting to /vendor/dashboard');
-          navigate('/vendor/dashboard');
-        } else if (role === 'customer') {
-          console.log('Redirecting to /customer/dashboard');
-          navigate('/customer/dashboard');
-        } else {
-          console.log('Unknown role:', role);
+          const role = data.user.role;
+          if (role === 'superadmin') navigate('/dashboard');
+         else if (role === 'vendor') navigate('/vendor/dashboard');
+         else if (role === 'customer') navigate('/customer/dashboard');
+         else {
           message.error('Unknown user role');
-          navigate('/auth');
-        }
+           navigate('/auth');
+         }
+         
       }, 500);
     } catch (error) {
-      console.error(' Login error:', error);
       message.error('Error: ' + error.message);
     } finally {
       setLoginLoading(false);
     }
   };
 
+  // Handle Register
   const handleRegister = async values => {
     setRegisterLoading(true);
     try {
-      console.log(' Register attempt:', values.email);
-
-      const response = await fetch(`${API_BASE_URL}/register`, {
+      const response = await fetch(`${AUTH_API_URL}/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -89,21 +78,20 @@ export default function Auth() {
           gstNumber: values.gstNumber,
         }),
       });
-
       const data = await response.json();
       if (!response.ok) {
         message.error(data.message || 'Registration failed');
         return;
       }
-      message.success(' Registration successful! Please login.');
+      message.success('Registration successful! Please login.');
       registerForm.resetFields();
     } catch (error) {
-      console.error(' Register error:', error);
       message.error('Error: ' + error.message);
     } finally {
       setRegisterLoading(false);
     }
   };
+
 
   const handleDemoLogin = (email, password) => {
     loginForm.setFieldsValue({ email, password });

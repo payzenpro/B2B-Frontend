@@ -1,14 +1,18 @@
-const API_BASE_URL = 'http://localhost:4000/api';
+
+const API_BASE = import.meta.env.VITE_API_BASE_URL
+|| 'http://localhost:4000/api';
 
 const getAuthHeader = () => {
   const token = localStorage.getItem('token');
   return token ? { Authorization: `Bearer ${token}` } : {};
 };
 
+
+
 // ==================== PRODUCTS ====================
 export const getProduct = async () => {
   try {
-    const response = await fetch(`${API_BASE_URL}/product`, {
+    const response = await fetch(`${API_BASE}/product`, {
       headers: getAuthHeader(),
     });
     if (!response.ok) {
@@ -26,7 +30,7 @@ export const getProduct = async () => {
 
 export const createProduct = async (productData) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/product`, {
+    const response = await fetch(`${API_BASE}/product`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -42,7 +46,7 @@ export const createProduct = async (productData) => {
 
 export const updateProduct = async (id, productData) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/product/${id}`, {
+    const response = await fetch(`${API_BASE}/product/${id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -58,7 +62,7 @@ export const updateProduct = async (id, productData) => {
 
 export const deleteProduct = async (id) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/product/${id}`, {
+    const response = await fetch(`${API_BASE}/product/${id}`, {
       method: 'DELETE',
       headers: getAuthHeader(),
     });
@@ -68,10 +72,14 @@ export const deleteProduct = async (id) => {
   }
 };
 
+
+
+
+
 // ==================== ORDERS ====================
 export const getOrders = async () => {
   try {
-    const response = await fetch(`${API_BASE_URL}/order`, {
+    const response = await fetch(`${API_BASE}/orders`, {
       headers: getAuthHeader(),
     });
     if (!response.ok) {
@@ -81,14 +89,14 @@ export const getOrders = async () => {
     const data = await response.json();
     return data.success ? data.data : [];
   } catch (error) {
-    console.error('Error fetching orders:', error.message);
+    console.error('Error fetching order:', error.message);
     return [];
   }
 };
 
 export const getOrderById = async (id) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/order/${id}`, {
+    const response = await fetch(`${API_BASE}/orders/${id}`, {
       headers: getAuthHeader()
     });
     if (!response.ok) return null;
@@ -102,7 +110,7 @@ export const getOrderById = async (id) => {
 
 export const createOrder = async (orderData) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/order`, {
+    const response = await fetch(`${API_BASE}/orders`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -118,7 +126,7 @@ export const createOrder = async (orderData) => {
 
 export const updateOrderStatus = async (id, status) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/order/${id}/status`, {
+    const response = await fetch(`${API_BASE}/orders/${id}/status`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -134,7 +142,7 @@ export const updateOrderStatus = async (id, status) => {
 
 export const deleteOrder = async (id) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/order/${id}`, {
+    const response = await fetch(`${API_BASE}/orders/${id}`, {
       method: 'DELETE',
       headers: getAuthHeader()
     });
@@ -147,7 +155,7 @@ export const deleteOrder = async (id) => {
 // ==================== VENDORS ====================
 export const getVendors = async () => {
   try {
-    const response = await fetch(`${API_BASE_URL}/vendor`, {
+    const response = await fetch(`${API_BASE}/vendor`, {
       headers: getAuthHeader()
     });
     if (!response.ok) return [];
@@ -162,7 +170,7 @@ export const getVendors = async () => {
 // ==================== CUSTOMERS ====================
 export const getCustomers = async () => {
   try {
-    const response = await fetch(`${API_BASE_URL}/customers`, {
+    const response = await fetch(`${API_BASE}/customers`, {
       headers: getAuthHeader()
     });
     if (!response.ok) return [];
@@ -176,7 +184,7 @@ export const getCustomers = async () => {
 
 export const createCustomer = async (customerData) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/customers`, { 
+    const response = await fetch(`${API_BASE}/customers`, { 
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -192,7 +200,7 @@ export const createCustomer = async (customerData) => {
 
 export const updateCustomer = async (id, customerData) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/customers/${id}`, {
+    const response = await fetch(`${API_BASE}/customers/${id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -208,7 +216,7 @@ export const updateCustomer = async (id, customerData) => {
 
 export const deleteCustomer = async (id) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/customers/${id}`, { 
+    const response = await fetch(`${API_BASE}/customers/${id}`, { 
       method: 'DELETE',
       headers: getAuthHeader()
     });
@@ -222,7 +230,7 @@ export const deleteCustomer = async (id) => {
 export const getBanners = async () => {
   try {
     const headers = getAuthHeader();
-    const response = await fetch(`${API_BASE_URL}/banners`, { headers }); 
+    const response = await fetch(`${API_BASE}/banners`, { headers }); 
 
     if (response.status === 401) {
       console.error('Unauthorized - Token invalid or expired');
@@ -246,7 +254,7 @@ export const getBanners = async () => {
 
 export const createBanner = async (bannerData) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/banners`, { 
+    const response = await fetch(`${API_BASE}/banners`, { 
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -262,7 +270,7 @@ export const createBanner = async (bannerData) => {
 
 export const updateBanner = async (id, bannerData) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/banners/${id}`, { 
+    const response = await fetch(`${API_BASE}/banners/${id}`, { 
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -278,7 +286,7 @@ export const updateBanner = async (id, bannerData) => {
 
 export const deleteBanner = async (id) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/banners/${id}`, { 
+    const response = await fetch(`${API_BASE}/banners/${id}`, { 
       method: 'DELETE',
       headers: getAuthHeader()
     });
@@ -291,7 +299,7 @@ export const deleteBanner = async (id) => {
 // ==================== COUPONS ====================
 export const getCoupons = async () => {
   try {
-    const response = await fetch(`${API_BASE_URL}/coupons`, {
+    const response = await fetch(`${API_BASE}/coupons`, {
       headers: getAuthHeader()
     });
     if (!response.ok) return [];
@@ -305,7 +313,7 @@ export const getCoupons = async () => {
 
 export const createCoupon = async (couponData) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/coupons`, {
+    const response = await fetch(`${API_BASE}/coupons`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -321,7 +329,7 @@ export const createCoupon = async (couponData) => {
 
 export const updateCoupon = async (id, couponData) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/coupons/${id}`, { 
+    const response = await fetch(`${API_BASE}/coupons/${id}`, { 
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -337,7 +345,7 @@ export const updateCoupon = async (id, couponData) => {
 
 export const deleteCoupon = async (id) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/coupons/${id}`, { 
+    const response = await fetch(`${API_BASE}/coupons/${id}`, { 
       method: 'DELETE',
       headers: getAuthHeader()
     });
@@ -350,7 +358,7 @@ export const deleteCoupon = async (id) => {
 // ==================== REFUNDS ====================
 export const getRefunds = async () => {
   try {
-    const response = await fetch(`${API_BASE_URL}/refunds`, {
+    const response = await fetch(`${API_BASE}/refunds`, {
       headers: getAuthHeader()
     });
     if (!response.ok) return [];
@@ -364,7 +372,7 @@ export const getRefunds = async () => {
 
 export const createRefund = async (refundData) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/refunds`, { 
+    const response = await fetch(`${API_BASE}/refunds`, { 
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -380,7 +388,7 @@ export const createRefund = async (refundData) => {
 
 export const approveRefund = async (id) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/refunds/${id}/approve`, { 
+    const response = await fetch(`${API_BASE}/refunds/${id}/approve`, { 
       method: 'PUT',
       headers: getAuthHeader()
     });
@@ -392,7 +400,7 @@ export const approveRefund = async (id) => {
 
 export const rejectRefund = async (id, reason = '') => {
   try {
-    const response = await fetch(`${API_BASE_URL}/refunds/${id}/reject`, { 
+    const response = await fetch(`${API_BASE}/refunds/${id}/reject`, { 
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -408,7 +416,7 @@ export const rejectRefund = async (id, reason = '') => {
 
 export const deleteRefund = async (id) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/refunds/${id}`, { 
+    const response = await fetch(`${API_BASE}/refunds/${id}`, { 
       method: 'DELETE',
       headers: getAuthHeader()
     });
@@ -421,7 +429,7 @@ export const deleteRefund = async (id) => {
 // ==================== CATEGORIES ====================
 export const getCategories = async () => {
   try {
-    const response = await fetch(`${API_BASE_URL}/categories`, {
+    const response = await fetch(`${API_BASE}/categories`, {
       headers: getAuthHeader(),
     });
     if (!response.ok) return [];
@@ -435,7 +443,7 @@ export const getCategories = async () => {
 
 export const getCategoriesById = async (id) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/categories/${id}`, {
+    const response = await fetch(`${API_BASE}/categories/${id}`, {
       headers: getAuthHeader()
     });
     if (!response.ok) return null;
@@ -449,7 +457,7 @@ export const getCategoriesById = async (id) => {
 
 export const createCategories = async (categoriesData) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/categories`, {
+    const response = await fetch(`${API_BASE}/categories`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -465,7 +473,7 @@ export const createCategories = async (categoriesData) => {
 
 export const updateCategories = async (id, categoriesData) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/categories/${id}`, {
+    const response = await fetch(`${API_BASE}/categories/${id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -481,7 +489,7 @@ export const updateCategories = async (id, categoriesData) => {
 
 export const deleteCategories = async (id) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/categories/${id}`, {
+    const response = await fetch(`${API_BASE}/categories/${id}`, {
       method: 'DELETE',
       headers: getAuthHeader()
     });
@@ -494,7 +502,7 @@ export const deleteCategories = async (id) => {
 // ==================== ATTRIBUTES ====================
 export const getAttributes = async () => {
   try {
-    const response = await fetch(`${API_BASE_URL}/attributes`, { 
+    const response = await fetch(`${API_BASE}/attributes`, { 
       headers: getAuthHeader()
     });
     if (!response.ok) return [];
@@ -508,7 +516,7 @@ export const getAttributes = async () => {
 
 export const getAttributeById = async (id) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/attributes/${id}`, { 
+    const response = await fetch(`${API_BASE}/attributes/${id}`, { 
       headers: getAuthHeader()
     });
     if (!response.ok) return null;
@@ -522,7 +530,7 @@ export const getAttributeById = async (id) => {
 
 export const createAttribute = async (attributeData) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/attributes`, { 
+    const response = await fetch(`${API_BASE}/attributes`, { 
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -538,7 +546,7 @@ export const createAttribute = async (attributeData) => {
 
 export const updateAttribute = async (id, attributeData) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/attributes/${id}`, { 
+    const response = await fetch(`${API_BASE}/attributes/${id}`, { 
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -554,7 +562,7 @@ export const updateAttribute = async (id, attributeData) => {
 
 export const deleteAttribute = async (id) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/attributes/${id}`, { 
+    const response = await fetch(`${API_BASE}/attributes/${id}`, { 
       method: 'DELETE',
       headers: getAuthHeader()
     });
@@ -567,7 +575,7 @@ export const deleteAttribute = async (id) => {
 // ==================== STORES ====================
 export const getStores = async () => {
   try {
-    const response = await fetch(`${API_BASE_URL}/stores`, { 
+    const response = await fetch(`${API_BASE}/stores`, { 
       headers: getAuthHeader()
     });
     if (!response.ok) return [];
@@ -581,7 +589,7 @@ export const getStores = async () => {
 
 export const getStoreById = async (id) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/stores/${id}`, { 
+    const response = await fetch(`${API_BASE}/stores/${id}`, { 
       headers: getAuthHeader()
     });
     if (!response.ok) return null;
@@ -595,7 +603,7 @@ export const getStoreById = async (id) => {
 
 export const createStore = async (storeData) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/stores`, { 
+    const response = await fetch(`${API_BASE}/stores`, { 
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -611,7 +619,7 @@ export const createStore = async (storeData) => {
 
 export const updateStore = async (id, storeData) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/stores/${id}`, {
+    const response = await fetch(`${API_BASE}/stores/${id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -627,7 +635,7 @@ export const updateStore = async (id, storeData) => {
 
 export const deleteStore = async (id) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/stores/${id}`, { 
+    const response = await fetch(`${API_BASE}/stores/${id}`, { 
       method: 'DELETE',
       headers: getAuthHeader()
     });
@@ -640,7 +648,7 @@ export const deleteStore = async (id) => {
 // ==================== FLASHSALES ====================
 export const getFlashsales = async () => {
   try {
-     const response = await fetch(`${API_BASE_URL}/flashsales`, { headers: getAuthHeader() });
+     const response = await fetch(`${API_BASE}/flashsales`, { headers: getAuthHeader() });
     if (!response.ok) throw new Error('Fetch failed');
     const data = await response.json();
     return data.success ? data.data : [];
@@ -652,7 +660,7 @@ export const getFlashsales = async () => {
 
 export const getFlashsaleById = async (id) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/flashsales/${id}`, { 
+    const response = await fetch(`${API_BASE}/flashsales/${id}`, { 
       headers: getAuthHeader()
     });
     if (!response.ok) return null;
@@ -666,7 +674,7 @@ export const getFlashsaleById = async (id) => {
 
 export const createFlashsale = async (flashsaleData) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/flashsales`, {
+    const response = await fetch(`${API_BASE}/flashsales`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -682,7 +690,7 @@ export const createFlashsale = async (flashsaleData) => {
 
 export const updateFlashsale = async (id, flashsaleData) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/flashsales/${id}`, { 
+    const response = await fetch(`${API_BASE}/flashsales/${id}`, { 
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -698,7 +706,7 @@ export const updateFlashsale = async (id, flashsaleData) => {
 
 export const deleteFlashsale = async (id) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/flashsales/${id}`, { 
+    const response = await fetch(`${API_BASE}/flashsales/${id}`, { 
       method: 'DELETE',
       headers: getAuthHeader()
     });
@@ -711,7 +719,7 @@ export const deleteFlashsale = async (id) => {
 // ==================== DASHBOARD ====================
 export const getDashboard = async () => {
   try {
-    const response = await fetch(`${API_BASE_URL}/dashboard`, {
+    const response = await fetch(`${API_BASE}/dashboard`, {
       headers: getAuthHeader()
     });
     if (!response.ok) return {};
@@ -723,16 +731,18 @@ export const getDashboard = async () => {
   }
 };
 
+
+
 // ==================== VENDOR SECTION ====================
 export const getVendorProfile = async () => {
-  const response = await fetch(`${API_BASE_URL}/vendor/profile`, {
+  const response = await fetch(`${API_BASE}/vendor/profile`, {
     headers: getAuthHeader(),
   });
   return await response.json();
 };
 
 export const updateVendorProfile = async (vendorData) => {
-  const response = await fetch(`${API_BASE_URL}/vendor/profile`, {
+  const response = await fetch(`${API_BASE}/vendor/profile`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
@@ -743,22 +753,29 @@ export const updateVendorProfile = async (vendorData) => {
   return await response.json();
 };
 
-export const getVendorOrders = async () => {
-  const response = await fetch(`${API_BASE_URL}/vendor/orders`, {
-    headers: getAuthHeader(),
+export async function getVendorOrders() {
+  const token = localStorage.getItem('token');
+  const res = await fetch(`${API_BASE}/vendor/orders`, {
+    headers: { Authorization: `Bearer ${token}` },
   });
-  return await response.json();
-};
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.error || data.message || 'Failed to fetch orders');
+  return data.data || [];
+}
+
+
+
+
 
 export const getVendorProducts = async () => {
-  const response = await fetch(`${API_BASE_URL}/vendor/products`, {
+  const response = await fetch(`${API_BASE}/vendor/products`, {
     headers: getAuthHeader(),
   });
   return await response.json();
 };
 
 export const getVendorBanners = async () => {
-  const response = await fetch(`${API_BASE_URL}/vendor/banners`, {
+  const response = await fetch(`${API_BASE}/vendor/banners`, {
     headers: getAuthHeader(),
   });
   return await response.json();
@@ -768,7 +785,7 @@ export const getVendorBanners = async () => {
 // ==================== PUSH NOTIFICATIONS ====================
 export const getPushNotifications = async () => {
   try {
-    const response = await fetch(`${API_BASE_URL}/pushNotifications`, {
+    const response = await fetch(`${API_BASE}/pushNotifications`, {
       headers: getAuthHeader()
     });
     if (!response.ok) return [];
@@ -782,7 +799,7 @@ export const getPushNotifications = async () => {
 
 export const createPushNotification = async (notificationData) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/pushNotifications`, {
+    const response = await fetch(`${API_BASE}/pushNotifications`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -798,7 +815,7 @@ export const createPushNotification = async (notificationData) => {
 
 export const updatePushNotification = async (id, notificationData) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/pushNotifications/${id}`, {
+    const response = await fetch(`${API_BASE}/pushNotifications/${id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -814,7 +831,7 @@ export const updatePushNotification = async (id, notificationData) => {
 
 export const deletePushNotification = async (id) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/pushNotifications/${id}`, {
+    const response = await fetch(`${API_BASE}/pushNotifications/${id}`, {
       method: 'DELETE',
       headers: getAuthHeader()
     });
@@ -827,7 +844,7 @@ export const deletePushNotification = async (id) => {
 // ==================== VENDOR FLASHSALES ====================
 export const getVendorFlashsale = async () => {
   try {
-    const response = await fetch(`${API_BASE_URL}/vendor/flashsales`, {
+    const response = await fetch(`${API_BASE}/vendor/flashsales`, {
       headers: getAuthHeader()
     });
     if (!response.ok) return [];
@@ -841,7 +858,7 @@ export const getVendorFlashsale = async () => {
 
 export const createVendorFlashsale = async (flashsaleData) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/vendor/flashsales`, {
+    const response = await fetch(`${API_BASE}/vendor/flashsales`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -857,7 +874,7 @@ export const createVendorFlashsale = async (flashsaleData) => {
 
 export const updateVendorFlashsale = async (id, flashsaleData) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/vendor/flashsales/${id}`, {
+    const response = await fetch(`${API_BASE}/vendor/flashsales/${id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -873,7 +890,7 @@ export const updateVendorFlashsale = async (id, flashsaleData) => {
 
 export const deleteVendorFlashsale = async (id) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/vendor/flashsales/${id}`, {
+    const response = await fetch(`${API_BASE}/vendor/flashsales/${id}`, {
       method: 'DELETE',
       headers: getAuthHeader()
     });
@@ -888,7 +905,7 @@ export const deleteVendorFlashsale = async (id) => {
 
 export const getVendorStores = async () => {
   try {
-    const response = await fetch(`${API_BASE_URL}/vendor/stores`, {
+    const response = await fetch(`${API_BASE}/vendor/stores`, {
       headers: getAuthHeader()
     });
     if (!response.ok) {
@@ -908,7 +925,7 @@ export const getVendorStores = async () => {
 
 export const createVendorStore = async (storeData) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/vendor/stores`, {
+    const response = await fetch(`${API_BASE}/vendor/stores`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -924,7 +941,7 @@ export const createVendorStore = async (storeData) => {
 
 export const updateVendorStore = async (id, storeData) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/vendor/stores/${id}`, {
+    const response = await fetch(`${API_BASE}/vendor/stores/${id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -939,7 +956,7 @@ export const updateVendorStore = async (id, storeData) => {
 };
 
 export const deleteVendorStore = async (id) => {
-  const response = await fetch(`${API_BASE_URL}/vendor/stores/${id}`, {
+  const response = await fetch(`${API_BASE}/vendor/stores/${id}`, {
     method: 'DELETE',
     headers: getAuthHeader(),
   });
@@ -950,7 +967,7 @@ export const deleteVendorStore = async (id) => {
 
 export const getCart = async () => {
   try {
-    const response = await fetch(`${API_BASE_URL}/cart`, {
+    const response = await fetch(`${API_BASE}/cart`, {
       headers: getAuthHeader()
     });
     if (!response.ok) return { items: [] };
@@ -964,7 +981,7 @@ export const getCart = async () => {
 
 export const addToCart = async (itemData) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/cart`, {
+    const response = await fetch(`${API_BASE}/cart`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -980,7 +997,7 @@ export const addToCart = async (itemData) => {
 
 export const updateCartItem = async (itemId, quantity) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/cart/item`, {
+    const response = await fetch(`${API_BASE}/cart/item`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -996,7 +1013,7 @@ export const updateCartItem = async (itemId, quantity) => {
 
 export const removeFromCart = async (itemId) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/cart/item/${itemId}`, {
+    const response = await fetch(`${API_BASE}/cart/item/${itemId}`, {
       method: 'DELETE',
       headers: getAuthHeader()
     });
@@ -1008,13 +1025,30 @@ export const removeFromCart = async (itemId) => {
 
 export const clearCart = async () => {
   try {
-    const response = await fetch(`${API_BASE_URL}/cart`, {
+    const response = await fetch(`${API_BASE}/cart`, {
       method: 'DELETE',
       headers: getAuthHeader()
     });
     return await response.json();
   } catch (error) {
     throw error;
+  }
+};
+
+
+// ==================== PROFILE ====================
+
+export const getProfile = async () => {
+  try {
+    const response = await fetch(`${API_BASE}/profile`, {
+      headers: getAuthHeader(),
+    });
+    if (!response.ok) return null;
+    const data = await response.json();
+    return data.profile || null;
+  } catch (error) {
+    console.error('Error fetching profile:', error);
+    return null;
   }
 };
 

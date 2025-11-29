@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Table, Button, Modal, Form, Input, Upload, Space, message, Popconfirm, Tag, Card, Select } from "antd";
 import { SearchOutlined, PlusOutlined, EditOutlined, DeleteOutlined, FolderOutlined, UploadOutlined } from "@ant-design/icons";
-import { getCategories, createCategories, updateCategories, deleteCategories } from '../app/api'; 
+import { getCategories, createCategories, updateCategories, deleteCategories } from '../../app/api'; 
 
 export default function Categories() {
   const [categories, setCategories] = useState([]);

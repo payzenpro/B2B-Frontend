@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Table, Button, Modal, Form, Input, Select, Space, message, Popconfirm, Tag, Card } from "antd";
 import { SearchOutlined, PlusOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
-import { getPushNotifications, createPushNotification, updatePushNotification, deletePushNotification } from '../app/api.js';
+import { getPushNotifications, createPushNotification, updatePushNotification, deletePushNotification } from '../../app/api.js';
 
 const API_BASE_URL = 'http://localhost:4000/api';
 

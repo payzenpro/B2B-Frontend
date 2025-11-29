@@ -1,38 +1,59 @@
 import React, { useState, useEffect } from 'react';
-import { Card, Button, Empty, InputNumber, message, Row, Col, Divider } from 'antd';
-import { DeleteOutlined, ShoppingOutlined } from '@ant-design/icons';
+import { Row, Col, Card, Button, InputNumber, message, Empty, Tag, Select } from 'antd';
+import { DeleteOutlined, ShoppingCartOutlined } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
+
+const { Option } = Select;
 
 export default function Cart() {
   const [cartItems, setCartItems] = useState([]);
   const navigate = useNavigate();
-  const API_BASE = import.meta.env.VITE_API_BASE_URL || "http://localhost:4000/api";
 
   useEffect(() => {
-    loadCartFromLocalStorage();
+    loadCart();
   }, []);
 
-  const loadCartFromLocalStorage = () => {
+  const loadCart = () => {
     const cart = JSON.parse(localStorage.getItem('cart') || '[]');
     setCartItems(cart);
   };
 
   const updateQuantity = (productId, newQuantity) => {
     if (newQuantity < 1) return;
-    
-    const updatedCart = cartItems.map(item => 
-      (item._id === productId || item.id === productId) 
-        ? { ...item, quantity: newQuantity } 
+    const updatedCart = cartItems.map(item =>
+      item._id === productId || item.id === productId
+        ? { ...item, quantity: newQuantity }
         : item
     );
-    
     setCartItems(updatedCart);
     localStorage.setItem('cart', JSON.stringify(updatedCart));
     message.success('Quantity updated');
   };
 
-  const removeFromCart = (productId) => {
-    const updatedCart = cartItems.filter(item => item._id !== productId && item.id !== productId);
+  const updateSize = (productId, size) => {
+    const updatedCart = cartItems.map(item =>
+      item._id === productId || item.id === productId
+        ? { ...item, selectedSize: size }
+        : item
+    );
+    setCartItems(updatedCart);
+    localStorage.setItem('cart', JSON.stringify(updatedCart));
+  };
+
+  const updateColor = (productId, color) => {
+    const updatedCart = cartItems.map(item =>
+      item._id === productId || item.id === productId
+        ? { ...item, selectedColor: color }
+        : item
+    );
+    setCartItems(updatedCart);
+    localStorage.setItem('cart', JSON.stringify(updatedCart));
+  };
+
+  const removeItem = (productId) => {
+    const updatedCart = cartItems.filter(item => 
+      item._id !== productId && item.id !== productId
+    );
     setCartItems(updatedCart);
     localStorage.setItem('cart', JSON.stringify(updatedCart));
     message.success('Item removed from cart');
@@ -41,10 +62,10 @@ export default function Cart() {
   const clearCart = () => {
     setCartItems([]);
     localStorage.removeItem('cart');
-    message.info('Cart cleared');
+    message.success('Cart cleared');
   };
 
-  const getSubtotal = () => {
+  const calculateTotal = () => {
     return cartItems.reduce((total, item) => {
       const price = typeof item.price === 'number' ? item.price : Number(item.price) || 0;
       return total + (price * item.quantity);
@@ -52,53 +73,29 @@ export default function Cart() {
   };
 
   const handleCheckout = () => {
-    const token = localStorage.getItem('token');
-    
-    if (!token) {
-      message.warning('Please login to proceed with checkout');
-      navigate('/');
+    if (cartItems.length === 0) {
+      message.warning('Your cart is empty');
       return;
     }
-    
     navigate('/checkout');
   };
 
-  
-  const getImageUrl = (item) => {
-    let imgSrc = item.image || item.images?.[0] || 'https://via.placeholder.com/100x100/e0e0e0/666?text=No+Image';
-    
-    if (imgSrc && typeof imgSrc === 'string' && !imgSrc.startsWith('http')) {
-      const baseUrl = API_BASE.replace('/api', '');
-      imgSrc = `${baseUrl}${imgSrc}`;
-    }
-    
-    return imgSrc;
+  const getProductImage = (item) => {
+    return item.images?.[0]?.url || 
+           item.images?.[0] || 
+           item.image?.url || 
+           item.image || 
+           'https://dummyimage.com/150x150/e0e0e0/666666&text=No+Image';
   };
+
   if (cartItems.length === 0) {
     return (
-      <div style={{ 
-        minHeight: '60vh', 
-        display: 'flex', 
-        flexDirection: 'column',
-        alignItems: 'center', 
-        justifyContent: 'center',
-        padding: 40 
-      }}>
-        <Empty 
+      <div style={{ padding: 40, textAlign: 'center', minHeight: '70vh' }}>
+        <Empty
+          description="Your cart is empty"
           image={Empty.PRESENTED_IMAGE_SIMPLE}
-          description={
-            <span style={{ fontSize: 16, color: '#666' }}>
-              Your cart is empty
-            </span>
-          }
         />
-        <Button 
-          type="primary" 
-          size="large"
-          icon={<ShoppingOutlined />}
-          onClick={() => navigate('/')} 
-          style={{ marginTop: 24 }}
-        >
+        <Button type="primary" onClick={() => navigate('/')} style={{ marginTop: 20 }}>
           Continue Shopping
         </Button>
       </div>
@@ -106,144 +103,154 @@ export default function Cart() {
   }
 
   return (
-    <div style={{ maxWidth: 1200, margin: '40px auto', padding: '20px' }}>
-      {/* Header */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
-        <h2 style={{ margin: 0 }}>Shopping Cart ({cartItems.length} {cartItems.length === 1 ? 'item' : 'items'})</h2>
-        <Button danger onClick={clearCart}>Clear Cart</Button>
-      </div>
+    <div style={{ maxWidth: 1200, margin: '40px auto', padding: '0 20px' }}>
+      <h1 style={{ marginBottom: 24 }}>Shopping Cart ({cartItems.length} items)</h1>
 
-      <Row gutter={24}>
-        {/* Cart Items */}
+      <Row gutter={[24, 24]}>
+        {/* Left: Cart Items */}
         <Col xs={24} lg={16}>
-          {cartItems.map(item => {
+          {cartItems.map((item) => {
             const price = typeof item.price === 'number' ? item.price : Number(item.price) || 0;
             const itemTotal = price * item.quantity;
 
             return (
-              <Card 
-                key={item._id || item.id} 
-                style={{ marginBottom: 16 }}
-                bodyStyle={{ padding: 16 }}
-              >
-                <Row gutter={16} align="middle">
+              <Card key={item._id || item.id} style={{ marginBottom: 16 }}>
+                <Row gutter={16}>
                   {/* Product Image */}
-                  <Col xs={8} sm={6} md={4}>
-                    <div style={{ 
-                      width: '100%', 
-                      height: 100, 
-                      display: 'flex', 
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      background: '#fafafa',
-                      borderRadius: 8,
-                      padding: 8
-                    }}>
-                      <img 
-                        src={getImageUrl(item)}
-                        alt={item.name} 
-                        style={{ 
-                          maxWidth: '100%', 
-                          maxHeight: '100%', 
-                          objectFit: 'contain' 
-                        }}
-                        onError={(e) => {
-                          e.target.src = 'https://via.placeholder.com/100x100/e0e0e0/666?text=No+Image';
-                        }}
-                      />
-                    </div>
+                  <Col xs={24} sm={6}>
+                    <img
+                      src={getProductImage(item)}
+                      alt={item.name}
+                      style={{ width: '100%', maxWidth: 150, borderRadius: 8 }}
+                      onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.src = 'https://dummyimage.com/150x150/e0e0e0/666666&text=No+Image';
+                      }}
+                    />
                   </Col>
 
                   {/* Product Details */}
-                  <Col xs={16} sm={10} md={12}>
-                    <h4 style={{ margin: '0 0 8px 0', fontSize: 16 }}>{item.name}</h4>
-                    <p style={{ color: '#666', margin: '0 0 8px 0', fontSize: 14 }}>
-                      Price: <strong>₹{price.toLocaleString()}</strong>
+                  <Col xs={24} sm={18}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 12 }}>
+                      <h3 style={{ margin: 0 }}>{item.name}</h3>
+                      <Button
+                        type="text"
+                        danger
+                        icon={<DeleteOutlined />}
+                        onClick={() => removeItem(item._id || item.id)}
+                      />
+                    </div>
+
+                    <p style={{ color: '#1890ff', fontSize: 18, fontWeight: 600, margin: '8px 0' }}>
+                      ₹{price.toLocaleString()} × {item.quantity} = ₹{itemTotal.toLocaleString()}
                     </p>
-                    {item.vendor?.name && (
-                      <p style={{ fontSize: 12, color: '#888', margin: 0 }}>
-                        Sold by: {item.vendor.name}
+
+                    {/* Size Selector */}
+                    <div style={{ marginTop: 12 }}>
+                      <span style={{ marginRight: 8, fontWeight: 500 }}>Size:</span>
+                      <Select
+                        value={item.selectedSize || 'M'}
+                        onChange={(value) => updateSize(item._id || item.id, value)}
+                        style={{ width: 100 }}
+                      >
+                        <Option value="S">S</Option>
+                        <Option value="M">M</Option>
+                        <Option value="L">L</Option>
+                        <Option value="XL">XL</Option>
+                        <Option value="XXL">XXL</Option>
+                      </Select>
+                    </div>
+
+                    {/* Color Selector */}
+                    <div style={{ marginTop: 12 }}>
+                      <span style={{ marginRight: 8, fontWeight: 500 }}>Color:</span>
+                      <Select
+                        value={item.selectedColor || 'Black'}
+                        onChange={(value) => updateColor(item._id || item.id, value)}
+                        style={{ width: 120 }}
+                      >
+                        <Option value="Black">Black</Option>
+                        <Option value="White">White</Option>
+                        <Option value="Red">Red</Option>
+                        <Option value="Blue">Blue</Option>
+                        <Option value="Green">Green</Option>
+                      </Select> 
+                    </div>
+
+                    {/* Quantity */}
+                    <div style={{ marginTop: 12 }}>
+                      <span style={{ marginRight: 8, fontWeight: 500 }}>Quantity:</span>
+                      <InputNumber
+                        min={1}
+                        max={item.stock || 99}
+                        value={item.quantity}
+                        onChange={(value) => updateQuantity(item._id || item.id, value)}
+                      />
+                      {item.stock && (
+                        <Tag color="green" style={{ marginLeft: 8 }}>
+                          {item.stock} in stock
+                        </Tag>
+                      )}
+                    </div>
+
+                    {/* Vendor*/}
+                    {item.vendorName && (
+                      <p style={{ marginTop: 8, fontSize: 12, color: '#666' }}>
+                        Sold by: <strong>{item.vendorName}</strong>
                       </p>
                     )}
-                  </Col>
-
-                  {/* Quantity & Actions */}
-                  <Col xs={24} sm={8} md={8} style={{ textAlign: 'right' }}>
-                    <div style={{ display: 'flex', flexDirection: 'column', gap: 12, alignItems: 'flex-end' }}>
-                      {/* Quantity Controls */}
-                      <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                        <span style={{ fontSize: 12, color: '#666' }}>Qty:</span>
-                        <InputNumber 
-                          min={1} 
-                          max={item.stock || 999}
-                          value={item.quantity} 
-                          onChange={(val) => updateQuantity(item._id || item.id, val)}
-                          style={{ width: 80 }}
-                        />
-                      </div>
-
-                      {/* Item Total */}
-                      <p style={{ 
-                        fontSize: 18, 
-                        fontWeight: 700, 
-                        color: '#1890ff',
-                        margin: 0
-                      }}>
-                        ₹{itemTotal.toLocaleString()}
-                      </p>
-
-                      {/* Remove Button */}
-                      <Button 
-                        danger 
-                        size="small"
-                        icon={<DeleteOutlined />}
-                        onClick={() => removeFromCart(item._id || item.id)}
-                      >
-                        Remove
-                      </Button>
-                    </div>
                   </Col>
                 </Row>
               </Card>
             );
           })}
+
+          <Button danger onClick={clearCart} style={{ marginTop: 16 }}>
+            Clear Cart
+          </Button>
         </Col>
 
-        {/* Order Summary */}
+        {/* Right: Order Summary */}
         <Col xs={24} lg={8}>
-          <Card 
-            title="Order Summary" 
-            style={{ position: 'sticky', top: 20 }}
-          >
+          <Card title="Order Summary" style={{ position: 'sticky', top: 20 }}>
             <div style={{ marginBottom: 16 }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8 }}>
                 <span>Subtotal:</span>
-                <span>₹{getSubtotal().toLocaleString()}</span>
+                <span style={{ fontWeight: 600 }}>₹{calculateTotal().toLocaleString()}</span>
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8 }}>
                 <span>Shipping:</span>
-                <span style={{ color: '#52c41a' }}>FREE</span>
+                <span style={{ color: 'green', fontWeight: 600 }}>FREE</span>
               </div>
-              <Divider style={{ margin: '12px 0' }} />
-              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 18, fontWeight: 700 }}>
-                <span>Total:</span>
-                <span style={{ color: '#1890ff' }}>₹{getSubtotal().toLocaleString()}</span>
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8 }}>
+                <span>Tax (18%):</span>
+                <span style={{ fontWeight: 600 }}>₹{(calculateTotal() * 0.18).toLocaleString()}</span>
+              </div>
+              <hr style={{ margin: '12px 0' }} />
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 18 }}>
+                <strong>Total:</strong>
+                <strong style={{ color: '#1890ff' }}>
+                  ₹{(calculateTotal() * 1.18).toLocaleString()}
+                </strong>
               </div>
             </div>
 
-            <Button 
-              type="primary" 
-              size="large" 
+            <Button
+              type="primary"
+              size="large"
               block
+              icon={<ShoppingCartOutlined />}
               onClick={handleCheckout}
             >
               Proceed to Checkout
             </Button>
 
-            <Button 
-              style={{ marginTop: 12 }} 
+            <Button
+              type="default"
+              size="large"
               block
               onClick={() => navigate('/')}
+              style={{ marginTop: 12 }}
             >
               Continue Shopping
             </Button>

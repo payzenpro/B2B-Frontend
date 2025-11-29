@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Table, Button, Space, Tag, Input, Popconfirm, message } from "antd";
 import { SearchOutlined, PlusOutlined, EditOutlined, DeleteOutlined, EyeOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
-import { getVendorStores, deleteVendorStore } from '../app/api.js';
+import { getVendorStores, deleteVendorStore } from '../../app/api.js';
 
 
 export default function VendorStoresList() {

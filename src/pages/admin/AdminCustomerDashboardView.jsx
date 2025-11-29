@@ -27,7 +27,7 @@ export default function AdminCustomerDashboardView() {
         return;
       }
 
-      // ✅ Fetch ONLY real customer data
+      //  Fetch ONLY real customer data
       const response = await fetch(`${API_BASE_URL}/auth/user/${customerId}`, {
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -36,7 +36,7 @@ export default function AdminCustomerDashboardView() {
       });
 
       const data = await response.json();
-      console.log('✅ Customer data:', data);
+      console.log(' Customer data:', data);
       
       if (data.success) {
         setCustomer(data.data);
@@ -46,7 +46,7 @@ export default function AdminCustomerDashboardView() {
         navigate('/customer-list');
       }
     } catch (error) {
-      console.error('❌ Error:', error);
+      console.error(' Error:', error);
       message.error('Failed to load customer data');
       navigate('/customer-list');
     } finally {
@@ -88,7 +88,7 @@ export default function AdminCustomerDashboardView() {
       }}>
         <div>
           <h2 style={{ margin: 0, marginBottom: 8, color: '#fff' }}>
-            👤 {customer.name}
+             {customer.name}
           </h2>
           <p style={{ margin: 0, fontSize: 14 }}>
             <Tag color="gold" style={{ marginRight: 8 }}>Customer</Tag>
@@ -109,7 +109,7 @@ export default function AdminCustomerDashboardView() {
         </Button>
       </div>
 
-      {/* Stats Cards - Real Data Only */}
+      {/* Stats Cards */}
       <Row gutter={[16, 16]} style={{ marginBottom: 24 }}>
         <Col xs={24} sm={12} lg={6}>
           <Card>
@@ -156,7 +156,7 @@ export default function AdminCustomerDashboardView() {
       </Row>
 
       {/* Customer Details - Real Data Only */}
-      <Card title="👤 Customer Information" style={{ marginBottom: 24 }}>
+      <Card title=" Customer Information" style={{ marginBottom: 24 }}>
         <Descriptions bordered column={2}>
           <Descriptions.Item label="Full Name" span={2}>
             <strong>{customer.name}</strong>
@@ -209,7 +209,7 @@ export default function AdminCustomerDashboardView() {
       {/* Additional Info */}
       <Row gutter={[16, 16]}>
         <Col xs={24} md={12}>
-          <Card title="📊 Order Statistics">
+          <Card title=" Order Statistics">
             <div style={{ lineHeight: 2.5 }}>
               <div>
                 <strong>Total Orders:</strong> 
@@ -236,7 +236,7 @@ export default function AdminCustomerDashboardView() {
         </Col>
 
         <Col xs={24} md={12}>
-          <Card title="⚙️ Account Details">
+          <Card title=" Account Details">
             <div style={{ lineHeight: 2.5 }}>
               <div>
                 <strong>Account Status:</strong> 
@@ -262,7 +262,7 @@ export default function AdminCustomerDashboardView() {
       </Row>
 
       {/* Actions */}
-      <Card title="🚀 Quick Actions" style={{ marginTop: 24 }}>
+      <Card title=" Quick Actions" style={{ marginTop: 24 }}>
         <Button type="primary" style={{ marginRight: 10 }}>
           View All Orders
         </Button>
