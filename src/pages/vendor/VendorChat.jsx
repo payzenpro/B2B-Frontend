@@ -27,7 +27,7 @@ export default function VendorChat() {
 
   return (
     <div>
-      <h2 style={{ marginBottom: 16 }}>💬 Chat</h2>
+      <h2 style={{ marginBottom: 16 }}> Chat</h2>
 
       <div style={{ display: 'flex', gap: 16, minHeight: 600 }}>
         {/* Chat List */}

@@ -36,7 +36,7 @@ export default function VendorMyShop() {
   return (
     <div>
       <div style={{ marginBottom: 16, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <h2 style={{ margin: 0 }}>🏪 My Shop</h2>
+        <h2 style={{ margin: 0 }}> My Shop</h2>
         <Space>
           <Button icon={<EditOutlined />}>Edit Shop</Button>
           <Button type="primary" icon={<EyeOutlined />}>View Shop</Button>

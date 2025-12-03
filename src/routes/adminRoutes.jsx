@@ -45,12 +45,10 @@ export const adminRoutes = {
     { path: "stores", element: <Stores /> },
     { path: "stores/new", element: <AddStores /> },
     { path: "vendor-list", element: <AdminVendorList /> },
-    //  { path: "vendor-list/:vendorId/dashboard", element: <AdminVendorDashboard /> },
     { path: "customer-list", element: <AdminCustomerList /> },
-    { path: "customer-list/:customerId/dashboard", element: <AdminCustomerDashboard /> },
-     { path: "vendor-dashboard/:Id", element: <AdminVendorDashboardView /> },
-   
-    { path: "customer-dashboard/:customerId", element: <AdminCustomerDashboardView /> },
+  
+    { path: "vendor-list/:vendorId/dashboard",element: <AdminVendorDashboardView />},
+    { path: "customer-list/:customerId/dashboard", element: <AdminCustomerDashboardView /> },
 
   ]
 };

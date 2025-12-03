@@ -15,44 +15,71 @@ export default function AdminCustomerDashboardView() {
     fetchCustomerData();
   }, [customerId]);
 
+  // const fetchCustomerData = async () => {
+  //   try {
+  //     console.log('📡 Fetching customer:', customerId);
+      
+  //     const token = localStorage.getItem('token');
+      
+  //     if (!token) {
+  //       message.error('Please login first!');
+  //       navigate('/login');
+  //       return;
+  //     }
+
+  //     //  Fetch ONLY real customer data
+  //     const response = await fetch(`${API_BASE_URL}/auth/user/${customerId}`, {
+  //       headers: {
+  //         'Authorization': `Bearer ${token}`,
+  //         'Content-Type': 'application/json'
+  //       }
+  //     });
+
+  //     const data = await response.json();
+  //     console.log(' Customer data:', data);
+      
+  //     if (data.success) {
+  //       setCustomer(data.data);
+  //       message.success('Customer data loaded');
+  //     } else {
+  //       message.error('Customer not found');
+  //       navigate('/customer-list');
+  //     }
+  //   } catch (error) {
+  //     console.error(' Error:', error);
+  //     message.error('Failed to load customer data');
+  //     navigate('/customer-list');
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
   const fetchCustomerData = async () => {
-    try {
-      console.log('📡 Fetching customer:', customerId);
-      
-      const token = localStorage.getItem('token');
-      
-      if (!token) {
-        message.error('Please login first!');
-        navigate('/login');
-        return;
-      }
-
-      //  Fetch ONLY real customer data
-      const response = await fetch(`${API_BASE_URL}/auth/user/${customerId}`, {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        }
-      });
-
-      const data = await response.json();
-      console.log(' Customer data:', data);
-      
-      if (data.success) {
-        setCustomer(data.data);
-        message.success('Customer data loaded');
-      } else {
-        message.error('Customer not found');
-        navigate('/customer-list');
-      }
-    } catch (error) {
-      console.error(' Error:', error);
-      message.error('Failed to load customer data');
-      navigate('/customer-list');
-    } finally {
-      setLoading(false);
+  setLoading(true);
+  try {
+    console.log("🔍 Loading customer from localStorage...");
+    
+    // ✅ AdminCustomerList se data localStorage me hai
+    const storedCustomer = localStorage.getItem("selectedCustomer");
+    if (!storedCustomer) {
+      message.error("Customer data not found");
+      navigate("/dashboard/customer-list");
+      return;
     }
-  };
+
+    const customer = JSON.parse(storedCustomer);
+    console.log("✅ Customer loaded:", customer.name);
+    
+    setCustomer(customer);
+    
+  } catch (error) {
+    console.error("❌ Error:", error);
+    message.error("Failed to load customer data");
+    navigate("/dashboard/customer-list");
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   if (loading) {
     return (

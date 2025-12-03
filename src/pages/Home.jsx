@@ -224,6 +224,54 @@
 //     return imgSrc;
 //   };
 
+
+//   const handleConfirmBuyNow = async () => {
+//   const token = localStorage.getItem("token");
+//   const user = JSON.parse(localStorage.getItem("user") || "null");
+
+//   if (!token || !user || user.role !== "customer") {
+//     message.error("Please login as customer to place order");
+//     return;
+//   }
+
+//   try {
+//     const res = await fetch(`${API_BASE}/orders`, {
+//       method: "POST",
+//       headers: {
+//         "Content-Type": "application/json",
+//         Authorization: `Bearer ${token}`,
+//       },
+//       body: JSON.stringify({
+//         items: [
+//           {
+//             productId: selectedProduct._id,
+//             name: selectedProduct.name,
+//             quantity: selectedQuantity,
+//             price: selectedProduct.price,
+//             size: selectedSize,
+//             color: selectedColor,
+//           },
+//         ],
+//         totalAmount: selectedProduct.price * selectedQuantity,
+//         paymentStatus: "paid",
+//         status: "pending",
+//       }),
+//     });
+
+//     const data = await res.json();
+//     if (!res.ok || !data.success) {
+//       throw new Error(data.message || "Order create failed");
+//     }
+
+//     message.success("Order placed successfully!");
+//     setBuyNowVisible(false);
+
+//   } catch (err) {
+//     console.error(err);
+//     message.error(err.message || "Something went wrong while placing order");
+//   }
+// };
+
 //   return (
 //     <>
 //       {/* Header */}
@@ -262,18 +310,16 @@
 //               </Space>
 //             </Button>
 //           </Dropdown>
-// <Input.Search
+//         <Input.Search
 //       placeholder="Search for products, brands and more"
 //       allowClear
 //       enterButton="Search"
 //       size="middle"
 //       style={{ width: 370, borderRadius: 8, background: "#fff" }}
 //       onSearch={(value) => {
-        
 //         message.info(`Search: ${value}`);
-//         // navigate(`/search?q=${encodeURIComponent(value)}`);
-//       }}
-//     />
+//          }}
+//          />
 //         </div>
 
 //         <div style={{ display: "flex", gap: 12 }}>
@@ -283,9 +329,16 @@
 //           <Button icon={<ShoppingCartOutlined />} onClick={() => navigate("/cart")}>
 //             Cart
 //           </Button>
+
 //           <Button type="default" onClick={() => navigate("/login/vendor")}>
 //             Vendor Login
 //           </Button>
+//         <Button
+//          icon={<UserOutlined />}
+//         onClick={() => navigate("/customer/dashboard")}>
+//         Profile
+//        </Button>
+       
 //         </div>
 //       </div>
 
@@ -463,7 +516,7 @@
 //                   }}
 //                   disabled={selectedProduct?.stock < 1}
 //                 >
-//                   Confirm Buy Now
+//                   Confirm Now
 //                 </Button>,
 //               ]
 //             : [
@@ -530,16 +583,18 @@
 //           <Button key="cancel" onClick={() => setBuyNowVisible(false)}>
 //             Cancel
 //           </Button>,
-//           <Button
-//             key="confirm"
-//             type="primary"
-//             onClick={() => {
-//               message.success("Order placed successfully!");
-//               setBuyNowVisible(false);
-//             }}
-//           >
-//             Confirm Purchase
-//           </Button>,
+
+//          <Button
+//   key="confirm"
+//   type="primary"
+//   onClick={() => {
+//     message.success("Order placed successfully!");
+//     setBuyNowVisible(false);
+//   }}
+// >
+//   Confirm Purchase
+// </Button>,
+
 //         ]}
 //       >
 //         {selectedProduct && (
@@ -596,8 +651,6 @@
 //     if (!res.ok) {
 //       throw new Error(data.message || "Failed to add product");
 //     }
-
-//     // ✅ Update cart context
 //     addToCart({
 //       ...product,
 //       selectedSize: size,
@@ -615,6 +668,8 @@
 // };
 
 
+
+
 // function getProductImage(product) {
 //   let imgSrc =
 //     product.images?.[0]?.url || product.images?.[0] || product.image?.url || product.image;
@@ -627,9 +682,6 @@
 //   }
 //   return imgSrc || "https://dummyimage.com/200x200/e0e0e0/666666&text=No+Image";
 // }
-
-// ...........................................................................................................
-
 
 
 import React, { useState, useEffect } from "react";
@@ -722,13 +774,12 @@ const categories = [
 
    {
     name: "Grocery",
-    slug: "food",
+    slug: "grocery",
     image:"https://cdn.prod.website-files.com/637f7c161a14232e2ea8473d/68273472635fcbdfa369f2e3_Untitled%20design%20(5)-compressed.jpg",
     subcategories: [
       { key: 'Nuts and Dry fruits', label: 'nuts and dryfruits' },
       { key: 'Snacks Corner', label: 'snacks corner' },
-      { key: 'Sweets Store', label: 'sweets store' },
-      { key: 'Cold Drinks', label: 'cold drinks' }
+      
     ]
   },
 
@@ -737,10 +788,10 @@ const categories = [
     slug: "stationary",
     image:"https://media.istockphoto.com/id/485725200/photo/school-and-office-accessories-on-wooden-background.jpg?s=612x612&w=0&k=20&c=PWgiIA-7_QDC_PXnEhwZqDLDDzrNMIxxJjBeD4h4oLM=",
     subcategories: [
-      { key: 'Nuts and Dry fruits', label: 'nuts and dryfruits' },
-      { key: 'Snacks Corner', label: 'snacks corner' },
-      { key: 'Sweets Store', label: 'sweets store' },
-      { key: 'Cold Drinks', label: 'cold drinks' }
+      { key: 'Writing Instruments', label: 'writing instruments' },
+      { key: 'Paper Products', label: 'paper products' },
+      { key: 'Office Supplies', label: 'office supplies' },
+      { key: ' Art & Craft', label: 'art & craft' }
     ]
   },
   {
@@ -748,10 +799,10 @@ const categories = [
     slug: "toys",
     image:"https://t4.ftcdn.net/jpg/03/24/42/21/360_F_324422176_Lgn7NTeFyNaUKIDu0Ppls1u8zb8wsKS4.jpg",
     subcategories: [
-      { key: 'Nuts and Dry fruits', label: 'nuts and dryfruits' },
-      { key: 'Snacks Corner', label: 'snacks corner' },
-      { key: 'Sweets Store', label: 'sweets store' },
-      { key: 'Cold Drinks', label: 'cold drinks' }
+      { key: 'Soft Toys', label: 'soft toys' },
+      { key: 'Educational & Learning Toys', label: 'educational & learning toys' },
+      { key: 'Outdoor & Sports Toys', label: 'outdoor & sports toys' },
+      { key: 'Cars, Vehicles & Remote Control', label: 'cars, vehicles & remote control' }
     ]
   },
 
@@ -792,8 +843,52 @@ const categoryMenuItems = [
       { key: 'tv', label: 'TVs' },
       { key: 'washing', label: 'Washing Machines' }
     ]
+  },
+  {
+    key: 'beauty',
+    label: 'Beauty',
+    children: [
+      { key: 'skin products', label: 'Skin Products' },
+      { key: 'hair products', label: 'Hair Products' }
+    ]
+  },
+  {
+    key: 'food',
+    label: 'Food $ Drinks',
+    children: [
+      { key: 'Nuts and dry fruits', label: 'Nuts and Dry fruits' },
+      { key: 'Snacks', label: 'Snacks Corner' },
+      {key: 'Cold drinks',label:'Cold Drinks'}
+    ]
+  }
+  
+];
+
+
+const topDeals = [
+  {
+    id: 1,
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTBXcC_qLlX_OGpEhLWZT_ZmTo69wdzfrmdqpV_Wd71y1AXOAj0sq6R5xyJgXAXM0sUlXQ&usqp=CAU",
+    title: "50% Off Electronics"
+  },
+  {
+    id: 2,
+    image: "https://img.freepik.com/free-vector/fashion-sale-banner-collection_23-2148181078.jpg",
+    title: "Mega Fashion Sale"
+  },
+  {
+    id: 3,
+    image: "https://blog.refundsmanager.com/wp-content/uploads/2020/11/AdobeStock_271582547.jpeg",
+    title: "Home & Kitchen Deals"
+  },
+  {
+    id: 4,
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQfIKZtg95BcJfA5z8NbBD1Bl-rAuMPVWKXfQ&s",
+    title: "Top Deals on Mobiles"
   }
 ];
+
+
 
 
   
@@ -824,6 +919,18 @@ export default function Home() {
   }, []);
 
   const fetchProducts = async () => {
+    // setLoadingProducts(true);
+    // try {
+    //   let res = await fetch(`${API_BASE}/product/public`);
+    //   if (!res.ok && res.status === 404) {
+    //     const token = localStorage.getItem("token");
+    //     const headers = token ? { Authorization: `Bearer ${token}` } : {};
+    //     res = await fetch(`${API_BASE}/product`, { headers });
+    //   }
+    //   if (!res.ok) {
+    //     setProducts([]);
+    //     return;
+  
     setLoadingProducts(true);
     try {
       let res = await fetch(`${API_BASE}/product/public`);
@@ -835,7 +942,8 @@ export default function Home() {
       if (!res.ok) {
         setProducts([]);
         return;
-      }
+      };
+      
       const data = await res.json();
       const productList = data.success ? data.data : (Array.isArray(data) ? data : []);
       setProducts(productList);
@@ -917,6 +1025,77 @@ export default function Home() {
     return imgSrc;
   };
 
+
+
+  //adddd
+ 
+
+const handleConfirmBuyNow = async () => {
+  const token = localStorage.getItem("token");
+  const user = JSON.parse(localStorage.getItem("user") || "null");
+
+  if (!token || !user || user.role !== "customer") {
+    message.error("Please login as customer to place order");
+    return;
+  }
+
+  if (!selectedProduct) {
+    message.error("No product selected");
+    return;
+  }
+
+  const price =
+    typeof selectedProduct.price === "number"
+      ? selectedProduct.price
+      : Number(selectedProduct.price) || 0;
+
+  const body = {
+    items: [
+      {
+        productId: selectedProduct._id || selectedProduct.id,
+        name: selectedProduct.name,
+        quantity: selectedQuantity,
+        price,
+        size: selectedSize,
+        color: selectedColor,
+      },
+    ],
+    totalAmount: price * selectedQuantity,
+    paymentMethod: "COD",
+    paymentStatus: "pending",
+    status: "unassigned",
+    shippingAddress: "Test address",
+    customerNote: "",
+  };
+
+  try {
+    console.log(" Sending order payload:", body);
+
+    const res = await fetch(`${API_BASE}/orders`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(body),
+    });
+
+    const data = await res.json();
+    console.log(" Response from /orders:", res.status, data);
+
+    if (!res.ok || !data.success) {
+      throw new Error(data.message || "Order create failed");
+    }
+
+    message.success("Order placed successfully!");
+    setBuyNowVisible(false);
+  } catch (err) {
+    console.error(" handleConfirmBuyNow error:", err);
+    message.error(err.message || "Something went wrong while placing order");
+  }
+};
+
+
   return (
     <>
       {/* Header */}
@@ -932,7 +1111,7 @@ export default function Home() {
         }}
       >
         <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-          <h2 style={{ color: "white", margin: 0, fontSize: 20 }}>Admin Panel</h2>
+          <h2 style={{ color: "white", margin: 0, fontSize: 20 }}>ShopEasy</h2>
 
           <Dropdown
             menu={{
@@ -964,7 +1143,7 @@ export default function Home() {
       onSearch={(value) => {
         
         message.info(`Search: ${value}`);
-        // navigate(`/search?q=${encodeURIComponent(value)}`);
+  
       }}
     />
         </div>
@@ -983,6 +1162,12 @@ export default function Home() {
           <Button type="default" onClick={() => navigate("/login/vendor")}>
             Vendor Login
           </Button>
+
+           <Button
+          icon={<UserOutlined />}
+         onClick={() => navigate("/customer/dashboard")}>
+         Profile
+       </Button>
         </div>
       </div>
 
@@ -1081,9 +1266,63 @@ export default function Home() {
   </Dropdown>
 ))}
 
+</div>
 
 
+
+{/* Top Deals Section */}
+<h2 style={{ marginTop: 40, marginBottom: 20 }}>Top Deals</h2>
+
+<Carousel
+  autoplay
+  dots={true}
+  slidesToShow={3}
+  slidesToScroll={1}
+  style={{ padding: "10px 20px" }}
+  responsive={[
+    {
+      breakpoint: 768,
+      settings: { slidesToShow: 1 }
+    },
+    {
+      breakpoint: 1024,
+      settings: { slidesToShow: 2 }
+    }
+  ]}
+>
+  {topDeals.map((deal) => (
+    <div key={deal.id} style={{ padding: 10 }}>
+      <div
+        style={{
+          borderRadius: 12,
+          overflow: "hidden",
+          background: "#fff",
+          boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
+          cursor: "pointer",
+          transition: "transform 0.3s",
+        }}
+      >
+        <img
+          src={deal.image}
+          alt={deal.title}
+          style={{
+            width: "100%",
+            height: 180,
+            objectFit: "cover",
+          }}
+        />
+        <div style={{ padding: 10, textAlign: "center", fontWeight: 600 }}>
+          {deal.title}
+        </div>
       </div>
+    </div>
+  ))}
+</Carousel>
+
+
+
+
+      
 
       {/* Products */}
       <h2 style={{ marginTop: 40, marginBottom: 20 }}>Featured Products for B2B</h2>
@@ -1302,6 +1541,85 @@ export default function Home() {
           </>
         )}
       </Modal>
+
+
+{/* Footer */}
+<div
+  style={{
+    backgroundColor: "#001529",
+    color: "white",
+    padding: "40px 20px",
+    marginTop: 60,
+  }}
+>
+  <Row gutter={[32, 32]} justify="space-between">
+
+    {/* Company Info */}
+    <Col xs={24} sm={12} md={6}>
+      <h3 style={{ color: "white" }}>ShopEasy</h3>
+      <p style={{ color: "#ccc", marginTop: 10 }}>
+        Your trusted marketplace for electronics, fashion, home, and more.
+      </p>
+      <p style={{ color: "#ccc", marginTop: 10 }}>
+        © {new Date().getFullYear()} ShopEasy. All rights reserved.
+      </p>
+    </Col>
+
+    {/* Quick Links */}
+    <Col xs={24} sm={12} md={6}>
+      <h3 style={{ color: "white" }}>Quick Links</h3>
+      <ul style={{ listStyle: "none", padding: 0, marginTop: 10 }}>
+        <li style={{ marginBottom: 8, cursor: "pointer" }}>About Us</li>
+        <li style={{ marginBottom: 8, cursor: "pointer" }}>Contact Us</li>
+        <li style={{ marginBottom: 8, cursor: "pointer" }}>Privacy Policy</li>
+        <li style={{ marginBottom: 8, cursor: "pointer" }}>Terms & Conditions</li>
+      </ul>
+    </Col>
+
+    {/* Customer Service */}
+    <Col xs={24} sm={12} md={6}>
+      <h3 style={{ color: "white" }}>Customer Support</h3>
+      <ul style={{ listStyle: "none", padding: 0, marginTop: 10 }}>
+        <li style={{ marginBottom: 8, cursor: "pointer" }}>Help Center</li>
+        <li style={{ marginBottom: 8, cursor: "pointer" }}>Returns</li>
+        <li style={{ marginBottom: 8, cursor: "pointer" }}>Shipping Info</li>
+        <li style={{ marginBottom: 8, cursor: "pointer" }}>FAQs</li>
+      </ul>
+    </Col>
+
+    {/* Contact */}
+    <Col xs={24} sm={12} md={6}>
+      <h3 style={{ color: "white" }}>Contact Us</h3>
+      <p style={{ marginTop: 10, color: "#ccc" }}>
+        <PhoneOutlined /> +91 98765 43210
+      </p>
+      <p style={{ marginTop: 6, color: "#ccc" }}>
+        <MailOutlined /> support@shopeasy.com
+      </p>
+      <p style={{ marginTop: 6, color: "#ccc" }}>
+        <ShopOutlined /> Mumbai, India
+      </p>
+    </Col>
+
+  </Row>
+
+  {/* Bottom Strip */}
+  <div
+    style={{
+      marginTop: 40,
+      borderTop: "1px solid #333",
+      paddingTop: 20,
+      textAlign: "center",
+      color: "#aaa",
+      fontSize: 14,
+    }}
+  >
+    Made with ❤️ for a smoother shopping experience.
+  </div>
+</div>
+
+
+
     </>
   );
 }
@@ -1351,15 +1669,46 @@ const handleAddToCart = async (product, size, color, quantity) => {
 };
 
 
-function getProductImage(product) {
+// function getProductImage(product) {
+//   let imgSrc =
+//     product.images?.[0]?.url || product.images?.[0] || product.image?.url || product.image;
+//   if (imgSrc && typeof imgSrc === "string" && !imgSrc.startsWith("http")) {
+//     const baseUrl = (import.meta.env.VITE_API_BASE_URL || "http://localhost:4000/api").replace(
+//       "/api",
+//       ""
+//     );
+//     imgSrc = `${baseUrl}${imgSrc}`;
+//   }
+//   return imgSrc || "https://dummyimage.com/200x200/e0e0e0/666666&text=No+Image";
+// }
+
+
+const getProductImage = (product) => {
+  if (!product) return "https://dummyimage.com/200x200/e0e0e0/666666&text=No+Image";
+
   let imgSrc =
-    product.images?.[0]?.url || product.images?.[0] || product.image?.url || product.image;
+    product.images?.[0]?.url ||
+    product.images?.[0] ||
+    product.image?.url ||
+    product.image ||
+    "";
+  if (typeof imgSrc === "string") {
+    imgSrc = imgSrc.trim();
+  }
+
+  
   if (imgSrc && typeof imgSrc === "string" && !imgSrc.startsWith("http")) {
-    const baseUrl = (import.meta.env.VITE_API_BASE_URL || "http://localhost:4000/api").replace(
-      "/api",
-      ""
-    );
+    const baseUrl = API_BASE.replace("/api", "");
     imgSrc = `${baseUrl}${imgSrc}`;
   }
-  return imgSrc || "https://dummyimage.com/200x200/e0e0e0/666666&text=No+Image";
-}
+
+  //  Last fallback
+  if (!imgSrc) {
+    imgSrc = "https://dummyimage.com/200x200/e0e0e0/666666&text=No+Image";
+  }
+
+  return imgSrc;
+};
+
+
+

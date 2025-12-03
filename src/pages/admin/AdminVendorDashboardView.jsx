@@ -1,9 +1,29 @@
+
 // import { useEffect, useState } from "react";
-// import { Card, Row, Col, Statistic, Table, Button, Descriptions, Tag, Avatar } from "antd";
-// import { ArrowLeftOutlined, ShoppingOutlined, UserOutlined, DollarOutlined, StarOutlined } from "@ant-design/icons";
+// import {
+//   Card,
+//   Row,
+//   Col,
+//   Statistic,
+//   Descriptions,
+//   Tag,
+//   Avatar,
+//   Button,
+//   message,
+//   Spin,
+//   Empty,
+// } from "antd";
+// import {
+//   ArrowLeftOutlined,
+//   ShoppingOutlined,
+//   DollarOutlined,
+//   StarOutlined,
+// } from "@ant-design/icons";
 // import { useParams, useNavigate } from "react-router-dom";
 
-// export default function AdminVendorDashboard() {
+// const API_BASE_URL = "http://localhost:4000/api";
+
+// export default function AdminVendorDashboardView() {
 //   const { vendorId } = useParams();
 //   const navigate = useNavigate();
 //   const [vendor, setVendor] = useState(null);
@@ -11,39 +31,105 @@
 
 //   useEffect(() => {
 //     fetchVendorData();
+//     // eslint-disable-next-line react-hooks/exhaustive-deps
 //   }, [vendorId]);
 
-//   const fetchVendorData = async () => {
-//     try {
-//       const response = await fetch(`http://localhost:4000/api/vendors/${vendorId}`);
-//       const data = await response.json();
-      
-//       if (data.success) {
-//         setVendor(data.data);
-//       } else {
-//         setVendor(null);
-//       }
-//     } catch (error) {
-//       console.error('Error:', error);
-//     } finally {
-//       setLoading(false);
+//   // const fetchVendorData = async () => {
+//   //   setLoading(true);
+//   //   try {
+//   //     const token = localStorage.getItem("token");
+//   //     if (!token) {
+//   //       message.error("Please login first!");
+//   //       navigate("/login");
+//   //       return;
+//   //     }
+
+//   //     const response = await fetch(`${API_BASE_URL}/vendors/${vendorId}`, {
+//   //       headers: {
+//   //         Authorization: `Bearer ${token}`,
+//   //         "Content-Type": "application/json",
+//   //       },
+//   //     });
+
+//   //     if (!response.ok) {
+//   //       throw new Error(`API error: ${response.status}`);
+//   //     }
+
+//   //     const data = await response.json();
+
+//   //     if (data.success) {
+//   //       setVendor(data.data);
+//   //     } else {
+//   //       message.error(data.message || "Vendor not found");
+//   //       setVendor(null);
+//   //     }
+//   //   } catch (error) {
+//   //     console.error("Error fetching vendor:", error);
+//   //     message.error("Failed to load vendor data");
+//   //     setVendor(null);
+//   //     // Optional: You can navigate back or to an error page here if needed
+//   //   } finally {
+//   //     setLoading(false);
+//   //   }
+//   // };
+// const fetchVendorData = async () => {
+//   setLoading(true);
+//   try {
+//     console.log(" Loading from localStorage...");
+    
+//     const storedVendor = localStorage.getItem("selectedVendor");
+//     if (!storedVendor) {
+//       message.error("No vendor data found");
+//       navigate("/dashboard/vendor-list");
+//       return;
 //     }
-//   };
+
+//     const vendor = JSON.parse(storedVendor);
+//     console.log(" Vendor loaded:", vendor.name);
+    
+//     // UI ke liye format
+//     setVendor({
+//       ...vendor,
+//       owner: vendor.name,
+//       storeName: vendor.storeName || `${vendor.name}'s Store`,
+//       status: vendor.status || 'active'
+//     });
+    
+//   } catch (error) {
+//     console.error(" Error:", error);
+//     message.error("Failed to load vendor");
+//   } finally {
+//     setLoading(false);
+//   }
+// };
+
+  
 
 //   if (loading) {
-//     return <div style={{ textAlign: 'center', padding: '50px' }}>Loading...</div>;
+//     return (
+//       <div style={{ textAlign: "center", padding: "50px" }}>
+//         <Spin tip="Loading vendor data..." size="large" />
+//       </div>
+//     );
 //   }
 
 //   if (!vendor) {
-//     return <div style={{ textAlign: 'center', padding: '50px' }}>Vendor not found</div>;
+//     return (
+//       <div style={{ textAlign: "center", padding: "50px" }}>
+//         <Empty description="Vendor not found" />
+//         <Button type="primary" onClick={() => navigate("/vendor-list")} style={{ marginTop: 20 }}>
+//           Back to Vendor List
+//         </Button>
+//       </div>
+//     );
 //   }
 
 //   return (
 //     <div>
-//       {/* Header */}
-//       <div style={{ marginBottom: '20px' }}>
-//         <Button 
-//           type="default" 
+//       {/* Back Button */}
+//       <div style={{ marginBottom: "20px" }}>
+//         <Button
+//           type="default"
 //           icon={<ArrowLeftOutlined />}
 //           onClick={() => navigate(-1)}
 //         >
@@ -51,35 +137,37 @@
 //         </Button>
 //       </div>
 
-//       {/* Store Header Card */}
-//       <Card 
-//         style={{ marginBottom: '20px' }}
+//       {/* Vendor Header */}
+//       <Card
+//         style={{ marginBottom: "20px" }}
 //         title={
-//           <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
-//             <Avatar size={50} style={{ backgroundColor: '#1890ff' }}>
-//               {vendor.owner?.charAt(0).toUpperCase()}
+//           <div style={{ display: "flex", alignItems: "center", gap: "15px" }}>
+//             <Avatar size={50} style={{ backgroundColor: "#1890ff" }}>
+//               {vendor.owner?.charAt(0).toUpperCase() || "V"}
 //             </Avatar>
 //             <div>
-//               <h2 style={{ margin: 0 }}>🏪 {vendor.storeName}</h2>
-//               <p style={{ margin: 0, color: '#999' }}>Owner: {vendor.owner}</p>
+//               <h2 style={{ margin: 0 }}> {vendor.storeName || "N/A"}</h2>
+//               <p style={{ margin: 0, color: "#999" }}>
+//                 Owner: {vendor.owner || "N/A"}
+//               </p>
 //             </div>
 //           </div>
 //         }
 //       >
-//         <Tag color={vendor.status === 'active' ? 'green' : 'red'}>
-//           {vendor.status?.toUpperCase()}
+//         <Tag color={vendor.status === "active" ? "green" : "red"}>
+//           {vendor.status?.toUpperCase() || ""}
 //         </Tag>
 //       </Card>
 
 //       {/* Stats Cards */}
-//       <Row gutter={[16, 16]} style={{ marginBottom: '20px' }}>
+//       <Row gutter={[16, 16]} style={{ marginBottom: "20px" }}>
 //         <Col xs={24} sm={12} lg={6}>
 //           <Card>
 //             <Statistic
 //               title="Total Orders"
 //               value={vendor.totalOrders || 0}
 //               prefix={<ShoppingOutlined />}
-//               valueStyle={{ color: '#1890ff' }}
+//               valueStyle={{ color: "#1890ff" }}
 //             />
 //           </Card>
 //         </Col>
@@ -87,9 +175,9 @@
 //           <Card>
 //             <Statistic
 //               title="Total Revenue"
-//               value={`₹${(vendor.totalRevenue || 0).toLocaleString()}`}
+//               value={`₹${Number(vendor.totalRevenue || 0).toLocaleString()}`}
 //               prefix={<DollarOutlined />}
-//               valueStyle={{ color: '#52c41a' }}
+//               valueStyle={{ color: "#52c41a" }}
 //             />
 //           </Card>
 //         </Col>
@@ -98,9 +186,9 @@
 //             <Statistic
 //               title="Rating"
 //               value={vendor.rating || 0}
-//               suffix=""
+//               suffix="⭐"
 //               prefix={<StarOutlined />}
-//               valueStyle={{ color: '#faad14' }}
+//               valueStyle={{ color: "#faad14" }}
 //             />
 //           </Card>
 //         </Col>
@@ -110,29 +198,29 @@
 //               title="Total Products"
 //               value={vendor.totalProducts || 0}
 //               prefix={<ShoppingOutlined />}
-//               valueStyle={{ color: '#f5222d' }}
+//               valueStyle={{ color: "#f5222d" }}
 //             />
 //           </Card>
 //         </Col>
 //       </Row>
 
-//       {/* Vendor Details */}
-//       <Card title=" Vendor Information" style={{ marginBottom: '20px' }}>
+//       {/* Vendor Information */}
+//       <Card title="Vendor Information" style={{ marginBottom: "20px" }}>
 //         <Descriptions bordered column={2}>
 //           <Descriptions.Item label="Store Name" span={2}>
-//             {vendor.storeName}
+//             {vendor.storeName || "N/A"}
 //           </Descriptions.Item>
 //           <Descriptions.Item label="Owner Name">
-//             {vendor.owner}
+//             {vendor.owner || "N/A"}
 //           </Descriptions.Item>
 //           <Descriptions.Item label="Owner Email">
-//             {vendor.email}
+//             {vendor.email || "N/A"}
 //           </Descriptions.Item>
 //           <Descriptions.Item label="Phone">
-//             {vendor.phone}
+//             {vendor.phone || "N/A"}
 //           </Descriptions.Item>
 //           <Descriptions.Item label="GST Number">
-//             {vendor.gstNumber || 'N/A'}
+//             {vendor.gstNumber || "N/A"}
 //           </Descriptions.Item>
 //           <Descriptions.Item label="Commission Rate">
 //             {vendor.commission || 15}%
@@ -141,27 +229,26 @@
 //             {vendor.reviews || 0}
 //           </Descriptions.Item>
 //           <Descriptions.Item label="Joined Date">
-//             {vendor.createdAt ? new Date(vendor.createdAt).toLocaleDateString() : 'N/A'}
+//             {vendor.createdAt
+//               ? new Date(vendor.createdAt).toLocaleDateString()
+//               : "N/A"}
 //           </Descriptions.Item>
 //           {vendor.storeAddress && (
 //             <Descriptions.Item label="Address" span={2}>
-//               {vendor.storeAddress.addressLine1}, {vendor.storeAddress.city}, {vendor.storeAddress.state} - {vendor.storeAddress.pincode}
+//               {vendor.storeAddress.addressLine1}, {vendor.storeAddress.city},{" "}
+//               {vendor.storeAddress.state} - {vendor.storeAddress.pincode}
 //             </Descriptions.Item>
 //           )}
 //         </Descriptions>
 //       </Card>
 
 //       {/* Quick Actions */}
-//       <Card title=" Actions">
-//         <Button type="primary" style={{ marginRight: '10px' }}>
+//       <Card title="Actions">
+//         <Button type="primary" style={{ marginRight: "10px" }}>
 //           View Products
 //         </Button>
-//         <Button style={{ marginRight: '10px' }}>
-//           View Orders
-//         </Button>
-//         <Button danger>
-//           Deactivate Store
-//         </Button>
+//         <Button style={{ marginRight: "10px" }}>View Orders</Button>
+//         <Button danger>Deactivate Store</Button>
 //       </Card>
 //     </div>
 //   );
@@ -200,48 +287,73 @@ export default function AdminVendorDashboardView() {
 
   useEffect(() => {
     fetchVendorData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [vendorId]);
 
   const fetchVendorData = async () => {
     setLoading(true);
     try {
-      const token = localStorage.getItem("token");
-      if (!token) {
-        message.error("Please login first!");
-        navigate("/login");
+      console.log("Loading from localStorage...");
+      
+      const storedVendor = localStorage.getItem("selectedVendor");
+      if (!storedVendor) {
+        message.error("No vendor data found");
+        navigate("/dashboard/vendor-list");
         return;
       }
 
-      const response = await fetch(`${API_BASE_URL}/vendors/${vendorId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
+      const vendorData = JSON.parse(storedVendor);
+      console.log("Vendor loaded:", vendorData.name);
+      
+      // UI ke liye format
+      setVendor({
+        ...vendorData,
+        owner: vendorData.name,
+        storeName: vendorData.storeName || `${vendorData.name}'s Store`,
+        status: vendorData.status || 'active'
       });
-
-      if (!response.ok) {
-        throw new Error(`API error: ${response.status}`);
-      }
-
-      const data = await response.json();
-
-      if (data.success) {
-        setVendor(data.data);
-      } else {
-        message.error(data.message || "Vendor not found");
-        setVendor(null);
-      }
+      
     } catch (error) {
-      console.error("Error fetching vendor:", error);
-      message.error("Failed to load vendor data");
-      setVendor(null);
-      // Optional: You can navigate back or to an error page here if needed
+      console.error("Error:", error);
+      message.error("Failed to load vendor");
     } finally {
       setLoading(false);
     }
   };
 
+  // 🚀 YE TEEN FUNCTIONS ADD KARO - YAHAN COMPONENT KE ANDAR
+  const handleViewProducts = () => {
+    // Vendor ka ID localStorage me save karo navigation ke liye
+    localStorage.setItem("currentVendorId", vendorId);
+    navigate(`/admin/vendor/${vendorId}/products`);
+  };
+
+  const handleViewOrders = () => {
+    localStorage.setItem("currentVendorId", vendorId);
+    navigate(`/admin/vendor/${vendorId}/orders`);
+  };
+
+  const handleDeactivateStore = async () => {
+    try {
+      // Confirm karo user se
+      const confirm = window.confirm("Are you sure you want to deactivate this store?");
+      if (!confirm) return;
+
+      // Yahan actual API call hogi (abhi mock response)
+      message.success("Store deactivated successfully!");
+      
+      // Vendor status update karo UI me
+      setVendor(prev => ({
+        ...prev,
+        status: 'inactive'
+      }));
+      
+    } catch (error) {
+      console.error("Error deactivating store:", error);
+      message.error("Failed to deactivate store");
+    }
+  };
+
+  // Loading state
   if (loading) {
     return (
       <div style={{ textAlign: "center", padding: "50px" }}>
@@ -283,7 +395,7 @@ export default function AdminVendorDashboardView() {
               {vendor.owner?.charAt(0).toUpperCase() || "V"}
             </Avatar>
             <div>
-              <h2 style={{ margin: 0 }}>🏪 {vendor.storeName || "N/A"}</h2>
+              <h2 style={{ margin: 0 }}> {vendor.storeName || "N/A"}</h2>
               <p style={{ margin: 0, color: "#999" }}>
                 Owner: {vendor.owner || "N/A"}
               </p>
@@ -379,13 +491,27 @@ export default function AdminVendorDashboardView() {
         </Descriptions>
       </Card>
 
-      {/* Quick Actions */}
+      {/*  WORKING ACTIONS*/}
       <Card title="Actions">
-        <Button type="primary" style={{ marginRight: "10px" }}>
+        <Button 
+          type="primary" 
+          style={{ marginRight: "10px" }} 
+          onClick={handleViewProducts}
+        >
           View Products
         </Button>
-        <Button style={{ marginRight: "10px" }}>View Orders</Button>
-        <Button danger>Deactivate Store</Button>
+        <Button 
+          style={{ marginRight: "10px" }} 
+          onClick={handleViewOrders}
+        >
+          View Orders
+        </Button>
+        <Button 
+          danger 
+          onClick={handleDeactivateStore}
+        >
+          Deactivate Store
+        </Button>
       </Card>
     </div>
   );

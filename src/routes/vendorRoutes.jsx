@@ -1,10 +1,11 @@
 import ProtectedRoute from "../components/ProtectedRoute.jsx";
 
+
 import VendorProducts from "../components/products/VendorProducts.jsx";
 import VendorOrders from "../components/orders/VendorOrders.jsx";
 
 
-import VendorPOS from "../pages/vendor/VendorPOS.jsx";
+// import VendorPOS from "../pages/vendor/VendorPOS.jsx";
 import VendorOrderRefunds from "../pages/vendor/VendorOrderRefunds.jsx";
 import VendorFlashSales from "../pages/vendor/VendorFlashSales.jsx";
 
@@ -36,7 +37,8 @@ import RoleBasedLayout from "../components/layouts/RoleBasedLayout.jsx";
     { index: true, element: <VendorDashboard /> },
 
     { path: "orders", element: <VendorOrders /> },
-    { path: "pos", element: <VendorPOS /> },
+   
+    // { path: "pos", element: <VendorPOS /> },
     { path: "refunds", element: <VendorOrderRefunds /> },
     { path: "flash-sales", element: <VendorFlashSales /> },
     { path: "coupons", element: <VendorCoupons /> },
@@ -45,11 +47,13 @@ import RoleBasedLayout from "../components/layouts/RoleBasedLayout.jsx";
     { path: "categories", element: <VendorCategories /> },
     { path: "attributes", element: <VendorAttributes /> },
     { path: "products", element: <VendorProducts /> },
-    { path: "add-stores", element: <VendorAddStores /> },
-    { path: "stores-list", element: <VendorStoresList /> },
+    // { path: "add-stores", element: <VendorAddStores /> },
+    // { path: "stores-list", element: <VendorStoresList /> },
     { path: "shop", element: <VendorMyShop /> },
     { path: "reviews", element: <VendorReviews /> },
     { path: "chat", element: <VendorChat /> },
     { path: "customer-list", element: <VendorCustomerList /> },
+     { path: "stores", element: <VendorStoresList /> },   
+    { path: "stores/add", element: <VendorAddStores /> }, 
   ],
 };
