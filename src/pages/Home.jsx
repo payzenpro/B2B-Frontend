@@ -224,6 +224,54 @@
 //     return imgSrc;
 //   };
 
+
+//   const handleConfirmBuyNow = async () => {
+//   const token = localStorage.getItem("token");
+//   const user = JSON.parse(localStorage.getItem("user") || "null");
+
+//   if (!token || !user || user.role !== "customer") {
+//     message.error("Please login as customer to place order");
+//     return;
+//   }
+
+//   try {
+//     const res = await fetch(`${API_BASE}/orders`, {
+//       method: "POST",
+//       headers: {
+//         "Content-Type": "application/json",
+//         Authorization: `Bearer ${token}`,
+//       },
+//       body: JSON.stringify({
+//         items: [
+//           {
+//             productId: selectedProduct._id,
+//             name: selectedProduct.name,
+//             quantity: selectedQuantity,
+//             price: selectedProduct.price,
+//             size: selectedSize,
+//             color: selectedColor,
+//           },
+//         ],
+//         totalAmount: selectedProduct.price * selectedQuantity,
+//         paymentStatus: "paid",
+//         status: "pending",
+//       }),
+//     });
+
+//     const data = await res.json();
+//     if (!res.ok || !data.success) {
+//       throw new Error(data.message || "Order create failed");
+//     }
+
+//     message.success("Order placed successfully!");
+//     setBuyNowVisible(false);
+
+//   } catch (err) {
+//     console.error(err);
+//     message.error(err.message || "Something went wrong while placing order");
+//   }
+// };
+
 //   return (
 //     <>
 //       {/* Header */}
@@ -262,18 +310,16 @@
 //               </Space>
 //             </Button>
 //           </Dropdown>
-// <Input.Search
+//         <Input.Search
 //       placeholder="Search for products, brands and more"
 //       allowClear
 //       enterButton="Search"
 //       size="middle"
 //       style={{ width: 370, borderRadius: 8, background: "#fff" }}
 //       onSearch={(value) => {
-        
 //         message.info(`Search: ${value}`);
-//         // navigate(`/search?q=${encodeURIComponent(value)}`);
-//       }}
-//     />
+//          }}
+//          />
 //         </div>
 
 //         <div style={{ display: "flex", gap: 12 }}>
@@ -283,9 +329,16 @@
 //           <Button icon={<ShoppingCartOutlined />} onClick={() => navigate("/cart")}>
 //             Cart
 //           </Button>
+
 //           <Button type="default" onClick={() => navigate("/login/vendor")}>
 //             Vendor Login
 //           </Button>
+//         <Button
+//          icon={<UserOutlined />}
+//         onClick={() => navigate("/customer/dashboard")}>
+//         Profile
+//        </Button>
+       
 //         </div>
 //       </div>
 
@@ -463,7 +516,7 @@
 //                   }}
 //                   disabled={selectedProduct?.stock < 1}
 //                 >
-//                   Confirm Buy Now
+//                   Confirm Now
 //                 </Button>,
 //               ]
 //             : [
@@ -530,16 +583,18 @@
 //           <Button key="cancel" onClick={() => setBuyNowVisible(false)}>
 //             Cancel
 //           </Button>,
-//           <Button
-//             key="confirm"
-//             type="primary"
-//             onClick={() => {
-//               message.success("Order placed successfully!");
-//               setBuyNowVisible(false);
-//             }}
-//           >
-//             Confirm Purchase
-//           </Button>,
+
+//          <Button
+//   key="confirm"
+//   type="primary"
+//   onClick={() => {
+//     message.success("Order placed successfully!");
+//     setBuyNowVisible(false);
+//   }}
+// >
+//   Confirm Purchase
+// </Button>,
+
 //         ]}
 //       >
 //         {selectedProduct && (
@@ -596,8 +651,6 @@
 //     if (!res.ok) {
 //       throw new Error(data.message || "Failed to add product");
 //     }
-
-//     // ✅ Update cart context
 //     addToCart({
 //       ...product,
 //       selectedSize: size,
@@ -615,6 +668,8 @@
 // };
 
 
+
+
 // function getProductImage(product) {
 //   let imgSrc =
 //     product.images?.[0]?.url || product.images?.[0] || product.image?.url || product.image;
@@ -627,9 +682,6 @@
 //   }
 //   return imgSrc || "https://dummyimage.com/200x200/e0e0e0/666666&text=No+Image";
 // }
-
-// ...........................................................................................................
-
 
 
 import React, { useState, useEffect } from "react";
@@ -867,6 +919,18 @@ export default function Home() {
   }, []);
 
   const fetchProducts = async () => {
+    // setLoadingProducts(true);
+    // try {
+    //   let res = await fetch(`${API_BASE}/product/public`);
+    //   if (!res.ok && res.status === 404) {
+    //     const token = localStorage.getItem("token");
+    //     const headers = token ? { Authorization: `Bearer ${token}` } : {};
+    //     res = await fetch(`${API_BASE}/product`, { headers });
+    //   }
+    //   if (!res.ok) {
+    //     setProducts([]);
+    //     return;
+  
     setLoadingProducts(true);
     try {
       let res = await fetch(`${API_BASE}/product/public`);
@@ -878,7 +942,8 @@ export default function Home() {
       if (!res.ok) {
         setProducts([]);
         return;
-      }
+      };
+      
       const data = await res.json();
       const productList = data.success ? data.data : (Array.isArray(data) ? data : []);
       setProducts(productList);
@@ -960,6 +1025,77 @@ export default function Home() {
     return imgSrc;
   };
 
+
+
+  //adddd
+ 
+
+const handleConfirmBuyNow = async () => {
+  const token = localStorage.getItem("token");
+  const user = JSON.parse(localStorage.getItem("user") || "null");
+
+  if (!token || !user || user.role !== "customer") {
+    message.error("Please login as customer to place order");
+    return;
+  }
+
+  if (!selectedProduct) {
+    message.error("No product selected");
+    return;
+  }
+
+  const price =
+    typeof selectedProduct.price === "number"
+      ? selectedProduct.price
+      : Number(selectedProduct.price) || 0;
+
+  const body = {
+    items: [
+      {
+        productId: selectedProduct._id || selectedProduct.id,
+        name: selectedProduct.name,
+        quantity: selectedQuantity,
+        price,
+        size: selectedSize,
+        color: selectedColor,
+      },
+    ],
+    totalAmount: price * selectedQuantity,
+    paymentMethod: "COD",
+    paymentStatus: "pending",
+    status: "unassigned",
+    shippingAddress: "Test address",
+    customerNote: "",
+  };
+
+  try {
+    console.log(" Sending order payload:", body);
+
+    const res = await fetch(`${API_BASE}/orders`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(body),
+    });
+
+    const data = await res.json();
+    console.log(" Response from /orders:", res.status, data);
+
+    if (!res.ok || !data.success) {
+      throw new Error(data.message || "Order create failed");
+    }
+
+    message.success("Order placed successfully!");
+    setBuyNowVisible(false);
+  } catch (err) {
+    console.error(" handleConfirmBuyNow error:", err);
+    message.error(err.message || "Something went wrong while placing order");
+  }
+};
+
+
   return (
     <>
       {/* Header */}
@@ -1007,7 +1143,7 @@ export default function Home() {
       onSearch={(value) => {
         
         message.info(`Search: ${value}`);
-        // navigate(`/search?q=${encodeURIComponent(value)}`);
+  
       }}
     />
         </div>
@@ -1026,6 +1162,12 @@ export default function Home() {
           <Button type="default" onClick={() => navigate("/login/vendor")}>
             Vendor Login
           </Button>
+
+           <Button
+          icon={<UserOutlined />}
+         onClick={() => navigate("/customer/dashboard")}>
+         Profile
+       </Button>
         </div>
       </div>
 
@@ -1527,16 +1669,46 @@ const handleAddToCart = async (product, size, color, quantity) => {
 };
 
 
-function getProductImage(product) {
+// function getProductImage(product) {
+//   let imgSrc =
+//     product.images?.[0]?.url || product.images?.[0] || product.image?.url || product.image;
+//   if (imgSrc && typeof imgSrc === "string" && !imgSrc.startsWith("http")) {
+//     const baseUrl = (import.meta.env.VITE_API_BASE_URL || "http://localhost:4000/api").replace(
+//       "/api",
+//       ""
+//     );
+//     imgSrc = `${baseUrl}${imgSrc}`;
+//   }
+//   return imgSrc || "https://dummyimage.com/200x200/e0e0e0/666666&text=No+Image";
+// }
+
+
+const getProductImage = (product) => {
+  if (!product) return "https://dummyimage.com/200x200/e0e0e0/666666&text=No+Image";
+
   let imgSrc =
-    product.images?.[0]?.url || product.images?.[0] || product.image?.url || product.image;
+    product.images?.[0]?.url ||
+    product.images?.[0] ||
+    product.image?.url ||
+    product.image ||
+    "";
+  if (typeof imgSrc === "string") {
+    imgSrc = imgSrc.trim();
+  }
+
+  
   if (imgSrc && typeof imgSrc === "string" && !imgSrc.startsWith("http")) {
-    const baseUrl = (import.meta.env.VITE_API_BASE_URL || "http://localhost:4000/api").replace(
-      "/api",
-      ""
-    );
+    const baseUrl = API_BASE.replace("/api", "");
     imgSrc = `${baseUrl}${imgSrc}`;
   }
-  return imgSrc || "https://dummyimage.com/200x200/e0e0e0/666666&text=No+Image";
-}
+
+  //  Last fallback
+  if (!imgSrc) {
+    imgSrc = "https://dummyimage.com/200x200/e0e0e0/666666&text=No+Image";
+  }
+
+  return imgSrc;
+};
+
+
 

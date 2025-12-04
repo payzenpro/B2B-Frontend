@@ -65,7 +65,6 @@ export default function VendorOrders() {
       key: "customer",
       width: 200,
       render: (record) => {
-        // 1) Backend mapped field
         if (record.customerName) return record.customerName;
 
         // 2) Populated customer object

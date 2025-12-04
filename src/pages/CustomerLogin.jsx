@@ -11,30 +11,34 @@ export default function CustomerAuth() {
   const navigate = useNavigate();
 
   // LOGIN HANDLER
-  const onLogin = async (values) => {
-    setLoading(true);
-    try {
-      const res = await fetch(`${API_BASE}/auth/login`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(values),
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.message || 'Login failed');
-      if (!data.user || data.user.role !== 'customer') {
-        message.error('This is not a customer account.');
-        return;
-      }
-      localStorage.setItem('token', data.token);
-      localStorage.setItem('user', JSON.stringify(data.user));
-      message.success('Login successful!');
-      navigate('/customer/dashboard');
-    } catch (err) {
-      message.error(err.message || 'Login failed');
-    } finally {
-      setLoading(false);
+const onLogin = async (values) => {
+  setLoading(true);
+  try {
+    const res = await fetch(`${API_BASE}/auth/login`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(values),
+    });
+    
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.message || 'Login failed');
+
+    if (!data.user || data.user.role !== 'customer') {
+      message.error('This is not a customer account.');
+      return;
     }
-  };
+
+    localStorage.setItem('token', data.token);
+    localStorage.setItem('user', JSON.stringify(data.user));
+
+    message.success('Login successful!');
+    navigate('/');  
+  } catch (err) {
+    message.error(err.message || 'Login failed');
+  } finally {
+    setLoading(false);
+  }
+};
 
   // REGISTER HANDLER
   const onRegister = async (values) => {

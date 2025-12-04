@@ -89,7 +89,7 @@ export const getOrders = async () => {
     const data = await response.json();
     return data.success ? data.data : [];
   } catch (error) {
-    console.error('Error fetching order:', error.message);
+    console.error('Error fetching orders:', error.message);
     return [];
   }
 };
@@ -151,6 +151,12 @@ export const deleteOrder = async (id) => {
     throw error;
   }
 };
+
+export const updateOrder = async (id, data) => {
+  const res = await API.put(`/orders/${id}`, data);
+  return res.data;
+};
+
 
 // ==================== VENDORS ====================
 export const getVendors = async () => {
@@ -645,6 +651,7 @@ export const deleteStore = async (id) => {
   }
 };
 
+
 // ==================== FLASHSALES ====================
 export const getFlashsales = async () => {
   try {
@@ -901,7 +908,7 @@ export const deleteVendorFlashsale = async (id) => {
 };
 
 
-// ==================== VENDOR STORES ====================
+//  VENDOR STORES ==============
 
 export const getVendorStores = async () => {
   try {
@@ -1036,7 +1043,7 @@ export const clearCart = async () => {
 };
 
 
-// ==================== PROFILE ====================
+// ==== PROFILE 
 
 export const getProfile = async () => {
   try {
@@ -1049,6 +1056,38 @@ export const getProfile = async () => {
   } catch (error) {
     console.error('Error fetching profile:', error);
     return null;
+  }
+};
+
+// ==================== VENDOR SHOP (MY SHOP) ====================
+export const getVendorShop = async () => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/vendor/shop`, {
+      headers: getAuthHeader(),
+    });
+    if (!response.ok) return null;
+    const data = await response.json();
+    return data.success ? data.data : null;
+  } catch (error) {
+    console.error("Error fetching vendor shop:", error);
+    return null;
+  }
+};
+
+export const updateVendorShop = async (shopData) => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/vendor/shop`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        ...getAuthHeader(),
+      },
+      body: JSON.stringify(shopData),
+    });
+    return await response.json();
+  } catch (error) {
+    console.error("Error updating vendor shop:", error);
+    throw error;
   }
 };
 

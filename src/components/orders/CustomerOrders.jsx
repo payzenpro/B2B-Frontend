@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Table, Tag, message, Card, Button } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:4000/api";
+const API_BASE = import.meta.env.VITE_API_BASE_URL || "http://localhost:4000/api";
 
 export default function CustomerOrders() {
   const [loading, setLoading] = useState(false);
@@ -15,29 +15,42 @@ export default function CustomerOrders() {
       const token = localStorage.getItem("token");
       if (!token) {
         message.error("Please login again");
-        navigate("/login");
+        navigate("/login/customer");
         return;
       }
 
-      const res = await fetch(`${API_BASE_URL}/orders`, {
+      
+      const res = await fetch(`${API_BASE}/orders/my`, 
+        {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
 
+      const data = await res.json();
+            console.log("GET /orders/my :", data); 
+
+
+
       if (!res.ok) {
-        message.error(`Failed to load orders: ${res.status}`);
+        message.error(data.message || `Failed to load orders: ${res.status}`);
         return;
       }
-
-      const data = await res.json();
 
       if (!data.success) {
         message.error(data.message || "Failed to load orders");
         return;
       }
+     if (!data.success){
+      message.error(data.message  )
+     }
+      
+      const list =
+        (Array.isArray(data.orders) && data.orders) ||
+        (Array.isArray(data.data) && data.data) ||
+        [];
 
-      setOrders(data.data || []);
+      setOrders(list);
     } catch (err) {
       message.error("Failed to load orders");
       console.error(err);
@@ -80,16 +93,29 @@ export default function CustomerOrders() {
       title: "Status",
       dataIndex: "status",
       key: "status",
-      render: (status) => {
-        let color = "default";
-        if (status === "pending") color = "gold";
-        else if (status === "processing") color = "blue";
-        else if (status === "shipped") color = "purple";
-        else if (status === "delivered") color = "green";
-        else if (status === "canceled") color = "red";
+      // render: (status) => {
+      //   let color = "default";
+      //   if (status === "pending") color = "gold";
+      //   else if (status === "processing") color = "blue";
+      //   else if (status === "shipped") color = "purple";
+      //   else if (status === "delivered") color = "green";
+      //   else if (status === "canceled") color = "red";
 
-        return <Tag color={color}>{status?.toUpperCase()}</Tag>;
-      },
+      //   return <Tag color={color}>{status?.toUpperCase()}</Tag>;
+      // },
+      render: (status) => {
+  let label = status;
+  let color = "default";
+
+  if (status === "unassigned") { label = "Pending"; color = "gold"; }
+  else if (status === "accepted" || status === "packaging") { label = "Processing"; color = "blue"; }
+  else if (status === "out_for_delivery") { label = "Shipped"; color = "purple"; }
+  else if (status === "delivered") { label = "Delivered"; color = "green"; }
+  else if (status === "canceled" || status === "refunded") { label = "Canceled"; color = "red"; }
+
+  return <Tag color={color}>{label.toUpperCase()}</Tag>;
+},
+
     },
     {
       title: "Payment",
@@ -120,10 +146,10 @@ export default function CustomerOrders() {
           : "-",
     },
     {
-      title: "Action",
+       title: "Action",
       key: "action",
       render: (_, record) => (
-        <Link to={`/customer/orders/${record._id}`}>
+        <Link to={record._id}>
           <Button size="small" type="primary">
             View Details
           </Button>

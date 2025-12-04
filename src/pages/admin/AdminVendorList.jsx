@@ -76,9 +76,16 @@ const data = await response.json();
     vendor.email?.toLowerCase().includes(searchText.toLowerCase()))
   );
 
-  const handleViewClick = (vendorId) => {
-    navigate(`/vendor-list/${vendorId}/dashboard`);
-  };
+  
+
+const handleViewClick = (vendor) => {
+  console.log("Saving vendor to localStorage:", vendor); 
+  localStorage.setItem("selectedVendor", JSON.stringify(vendor));
+  navigate(`/dashboard/vendor-list/${vendor._id}/dashboard`);
+};
+
+
+
 
   const columns = [
     {
@@ -126,169 +133,61 @@ const data = await response.json();
       key: 'status',
       render: (status) => <Tag color={status === 'active' ? 'green' : 'red'}>{status || 'active'}</Tag>
     },
+    // {
+    //   title: 'Action',
+    //   key: 'action',
+    //   render: (_, record) => (
+    //     <Button 
+    //       type="primary" 
+    //       size="small" 
+    //       icon={<EyeOutlined />}
+    //       onClick={() => handleViewClick(record._id)}  
+    //     >
+    //       View
+    //     </Button>
+    //   )
+    // }
     {
-      title: 'Action',
-      key: 'action',
-      render: (_, record) => (
-        <Button 
-          type="primary" 
-          size="small" 
-          icon={<EyeOutlined />}
-          onClick={() => handleViewClick(record._id)}  
-        >
-          View
-        </Button>
-      )
-    }
+  title: 'Action',
+  key: 'action',
+  render: (_, record) => (
+    <Button 
+      type="primary" 
+      size="small" 
+      icon={<EyeOutlined />}
+      onClick={() => handleViewClick(record)}  // poora vendor record pass kar rahe ho
+    >
+      View
+    </Button>
+  )
+}
+
+    
   ];
 
-  // return (
-  //   <div>
-  //     <Card title=" Admin - Vendor List">
-  //       <div style={{ marginBottom: 16 }}>
-  //         <Input
-  //           placeholder="Search by store name, owner, or email..."
-  //           prefix={<SearchOutlined />}
-  //           value={searchText}
-  //           onChange={(e) => setSearchText(e.target.value)}
-  //           style={{ width: '100%', maxWidth: 400 ,background:'#fff'}}
-  //           allowClear
-  //         />
-  //       </div>
+  return (
+    <div>
+      <Card title=" Admin - Vendor List">
+        <div style={{ marginBottom: 16 }}>
+          <Input
+            placeholder="Search by store name, owner, or email..."
+            prefix={<SearchOutlined />}
+            value={searchText}
+            onChange={(e) => setSearchText(e.target.value)}
+            style={{ width: '100%', maxWidth: 400 }}
+            allowClear
+          />
+        </div>
 
-  //       <Table
-  //         dataSource={filteredVendors}
-  //         columns={columns}
-  //         rowKey="_id"
-  //         loading={loading}
-  //         pagination={{ pageSize: 10, showTotal: (total) => `Total ${total} vendors` }}
-  //         scroll={{ x: 1200 }}
-  //       />
-  //     </Card>
-  //   </div>
-  // );
-
-return (
-  <div
-    style={{
-      minHeight: '100vh',
-      padding: '30px',
-      background: 'linear-gradient(135deg, #6e00ff 0%, #00eaff 100%)',
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'flex-start',
-      transition: 'all 0.4s ease',
-    }}
-  >
-    <Card
-      title="✨ Admin - Vendor List"
-      style={{
-        width: '100%',
-        maxWidth: '1200px',
-        borderRadius: '16px',
-        border: 'none',
-        padding: '16px 0',
-        background: 'rgba(255, 255, 255, 0.20)',
-        boxShadow: '0 14px 40px rgba(0, 0, 0, 0.25)',
-        backdropFilter: 'blur(12px)',
-        color: '#fff',
-        animation: 'fadeIn 0.6s ease',
-      }}
-      headStyle={{
-        fontSize: '22px',
-        fontWeight: '700',
-        color: '#fff',
-        textShadow: '0 0 6px rgba(255,255,255,0.6)',
-      }}
-    >
-      {/* Search Box */}
-      <div style={{ marginBottom: 18, display: 'flex', justifyContent: 'center' }}>
-        <Input
-          placeholder="Search vendors by name, owner, or email..."
-          prefix={<SearchOutlined />}
-          value={searchText}
-          onChange={(e) => setSearchText(e.target.value)}
-          allowClear
-          style={{
-            width: '100%',
-            maxWidth: 420,
-            borderRadius: '50px',
-            padding: '10px 20px',
-            border: '1px solid #ffffff66',
-            background: 'rgba(255,255,255,0.95)',
-            transition: '0.3s',
-          }}
-          onFocus={(e) => (e.target.style.boxShadow = '0 0 12px rgba(255,255,255,0.8)')}
-          onBlur={(e) => (e.target.style.boxShadow = 'none')}
+        <Table
+          dataSource={filteredVendors}
+          columns={columns}
+          rowKey="_id"
+          loading={loading}
+          pagination={{ pageSize: 10, showTotal: (total) => `Total ${total} vendors` }}
+          scroll={{ x: 1200 }}
         />
-      </div>
-
-      {/* Table */}
-      <Table
-        dataSource={filteredVendors}
-        columns={columns}
-        rowKey="_id"
-        loading={loading}
-        pagination={{
-          pageSize: 10,
-          showTotal: (total) => `Total ${total} vendors`,
-        }}
-        scroll={{ x: 1200 }}
-        style={{
-          borderRadius: '12px',
-          overflow: 'hidden',
-          animation: 'slideUp 0.7s ease',
-        }}
-      />
-
-      <style>
-        {`
-          /* Row Hover Animation */
-          .ant-table-row:hover {
-            background: rgba(255, 255, 255, 0.15) !important;
-            cursor: pointer;
-            transform: scale(1.01);
-            transition: 0.2s;
-          }
-
-          /* Table Header Style */
-          .ant-table-thead > tr > th {
-            background: rgba(255, 255, 255, 0.2) !important;
-            color: #0f0f0fff !important;
-
-
-            font-size: 15px;
-            font-weight: 600;
-            text-transform: uppercase;
-            backdrop-filter: blur(10px);
-          }
-
-          .ant-table {
-            background: rgba(255,255,255,0.10) !important;
-            color: #fff !important;
-          }
-
-          .ant-table-cell {
-            color: #0f0f0fff !important;
-          }
-
-          /* Animations */
-          @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-          }
-          
-          @keyframes slideUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-          }
-        `}
-      </style>
-    </Card>
-  </div>
-);
-
-
-
-
+      </Card>
+    </div>
+  );
 }
