@@ -40,7 +40,7 @@ export default function LoginSuperadmin() {
   };
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', paddingTop: 40 }}>
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', paddingTop: 90, background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', height: 551, }}>
       <Card title="Superadmin Login" style={{ width: 400 }}>
         <Form name="login_superadmin" onFinish={onFinish} layout="vertical">
           <Form.Item name="email" label="Email" rules={[{ required: true, type: 'email' }]}>
@@ -50,7 +50,15 @@ export default function LoginSuperadmin() {
             <Input.Password prefix={<LockOutlined />} placeholder="Password" />
           </Form.Item>
           <Form.Item>
-            <Button type="primary" htmlType="submit" loading={loading} block>
+            <Button type="primary" htmlType="submit" loading={loading} block style={{ background: "#7132CA", borderColor: "#7132CA" }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = "#9B5DE0"; // darker purple
+                e.currentTarget.style.borderColor = "#9B5DE0";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = "#7132CA"; // original color
+                e.currentTarget.style.borderColor = "#7132CA";
+              }}>
               Login as Superadmin
             </Button>
           </Form.Item>
