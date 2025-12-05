@@ -19,41 +19,24 @@ export default function CustomerOrders() {
         return;
       }
 
-      
-      const res = await fetch(`${API_BASE}/orders/my`, 
-        {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+      const res = await fetch(`${API_BASE}/orders/my`, {
+        headers: { Authorization: `Bearer ${token}` },
       });
 
       const data = await res.json();
-            console.log("GET /orders/my :", data); 
-
-
+      console.log("GET /orders/my :", res.status, data);
 
       if (!res.ok) {
         message.error(data.message || `Failed to load orders: ${res.status}`);
         return;
       }
 
-      if (!data.success) {
-        message.error(data.message || "Failed to load orders");
-        return;
-      }
-     if (!data.success){
-      message.error(data.message  )
-     }
-      
-      const list =
-        (Array.isArray(data.orders) && data.orders) ||
-        (Array.isArray(data.data) && data.data) ||
-        [];
-
+      // simple: backend { success, data: [...] }
+      const list = data.success && Array.isArray(data.data) ? data.data : [];
       setOrders(list);
     } catch (err) {
+      console.error("fetchOrders error:", err);
       message.error("Failed to load orders");
-      console.error(err);
     } finally {
       setLoading(false);
     }
@@ -80,7 +63,9 @@ export default function CustomerOrders() {
       key: "items",
       render: (items) =>
         items && items.length > 0
-          ? `${items[0].name}${items.length > 1 ? ` +${items.length - 1} more` : ""}`
+          ? `${items[0].name}${
+              items.length > 1 ? ` +${items.length - 1} more` : ""
+            }`
           : "-",
     },
     {
@@ -93,29 +78,29 @@ export default function CustomerOrders() {
       title: "Status",
       dataIndex: "status",
       key: "status",
-      // render: (status) => {
-      //   let color = "default";
-      //   if (status === "pending") color = "gold";
-      //   else if (status === "processing") color = "blue";
-      //   else if (status === "shipped") color = "purple";
-      //   else if (status === "delivered") color = "green";
-      //   else if (status === "canceled") color = "red";
-
-      //   return <Tag color={color}>{status?.toUpperCase()}</Tag>;
-      // },
       render: (status) => {
-  let label = status;
-  let color = "default";
+        let label = status;
+        let color = "default";
 
-  if (status === "unassigned") { label = "Pending"; color = "gold"; }
-  else if (status === "accepted" || status === "packaging") { label = "Processing"; color = "blue"; }
-  else if (status === "out_for_delivery") { label = "Shipped"; color = "purple"; }
-  else if (status === "delivered") { label = "Delivered"; color = "green"; }
-  else if (status === "canceled" || status === "refunded") { label = "Canceled"; color = "red"; }
+        if (status === "unassigned") {
+          label = "Pending";
+          color = "gold";
+        } else if (status === "accepted" || status === "packaging") {
+          label = "Processing";
+          color = "blue";
+        } else if (status === "out_for_delivery") {
+          label = "Shipped";
+          color = "purple";
+        } else if (status === "delivered") {
+          label = "Delivered";
+          color = "green";
+        } else if (status === "canceled" || status === "refunded") {
+          label = "Canceled";
+          color = "red";
+        }
 
-  return <Tag color={color}>{label.toUpperCase()}</Tag>;
-},
-
+        return <Tag color={color}>{(label || "UNKNOWN").toUpperCase()}</Tag>;
+      },
     },
     {
       title: "Payment",
@@ -127,7 +112,7 @@ export default function CustomerOrders() {
         else if (val === "pending") color = "orange";
         else if (val === "partial") color = "gold";
 
-        return <Tag color={color}>{val?.toUpperCase()}</Tag>;
+        return <Tag color={color}>{(val || "UNKNOWN").toUpperCase()}</Tag>;
       },
     },
     {
@@ -146,10 +131,10 @@ export default function CustomerOrders() {
           : "-",
     },
     {
-       title: "Action",
+      title: "Action",
       key: "action",
       render: (_, record) => (
-        <Link to={record._id}>
+        <Link to={`/customer/orders/${record._id}`}>
           <Button size="small" type="primary">
             View Details
           </Button>
@@ -160,7 +145,7 @@ export default function CustomerOrders() {
 
   return (
     <Card
-      title=" My Orders"
+      title="My Orders"
       extra={
         <Button onClick={fetchOrders} loading={loading}>
           Refresh

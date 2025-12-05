@@ -88,8 +88,8 @@ const handleCheckout = () => {
 };
 
   const getProductImage = (item) => {
-    return item.images?.[0]?.url || 
-           item.images?.[0] || 
+    return item.image?.[0]?.url || 
+           item.image?.[0] || 
            item.image?.url || 
            item.image || 
            'https://dummyimage.com/150x150/e0e0e0/666666&text=No+Image';
@@ -177,113 +177,104 @@ const handleCheckout = () => {
       <Row gutter={[24, 24]}>
         {/* Left: Cart Items */}
         <Col xs={24} lg={16}>
-          {cartItems.map((item) => {
-            const price = typeof item.price === 'number' ? item.price : Number(item.price) || 0;
-            const itemTotal = price * item.quantity;
+        {cartItems.map((item) => {
+  const price = typeof item.price === 'number' ? item.price : Number(item.price) || 0;
+  const itemTotal = price * item.quantity;
+  const imgSrc = getProductImage(item);
 
-            return (
-              <Card key={item._id || item.id} style={{ marginBottom: 16 }}>
-                <Row gutter={16}>
-                  {/* Product Image */}
-                  <Col xs={24} sm={6}>
-                    {/* <img
-                      src={getProductImage(item)}
-                      alt={item.name}
-                      style={{ width: '100%', maxWidth: 150, borderRadius: 8 }}
-                      onError={(e) => {
-                        e.target.onerror = null;
-                        e.target.src = 'https://dummyimage.com/150x150/e0e0e0/666666&text=No+Image';
-                      }}
-                    /> */}
-                    const imgSrc = getProductImage(prod);
+  return (
+    <Card key={item._id || item.id} style={{ marginBottom: 16 }}>
+      
+      <Row gutter={16}>
+        {/* Product Image */}
+        <Col xs={24} sm={6}>
+          <img
+            alt={item.name}
+            src={imgSrc}
+            style={{ width: '100%', maxWidth: 150, borderRadius: 8, objectFit: 'contain' }}
+            onError={(e) => {
+              e.target.onerror = null;
+              e.target.src = 'https://dummyimage.com/150x150/e0e0e0/666666&text=No+Image';
+            }}
+          />
+        </Col>
 
-<img
-  alt={prod.name}
-  src={imgSrc}
-  style={{ maxHeight: "100%", maxWidth: "100%", objectFit: "contain" }}
-  onError={(e) => {
-    e.target.onerror = null;
-    e.target.src = "https://dummyimage.com/200x200/e0e0e0/666666&text=No+Image";
-  }}
-/>
+        {/* Product Details */}
+        <Col xs={24} sm={18}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 12 }}>
+            <h3 style={{ margin: 0 }}>{item.name}</h3>
+            <Button
+              type="text"
+              danger
+              icon={<DeleteOutlined />}
+              onClick={() => removeItem(item._id || item.id)}
+            />
+          </div>
 
-                  </Col>
+          <p style={{ color: '#1890ff', fontSize: 18, fontWeight: 600, margin: '8px 0' }}>
+            ₹{price.toLocaleString()} × {item.quantity} = ₹{itemTotal.toLocaleString()}
+          </p>
 
-                  {/* Product Details */}
-                  <Col xs={24} sm={18}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 12 }}>
-                      <h3 style={{ margin: 0 }}>{item.name}</h3>
-                      <Button
-                        type="text"
-                        danger
-                        icon={<DeleteOutlined />}
-                        onClick={() => removeItem(item._id || item.id)}
-                      />
-                    </div>
+          {/* Size Selector */}
+          <div style={{ marginTop: 12 }}>
+            <span style={{ marginRight: 8, fontWeight: 500 }}>Size:</span>
+            <Select
+              value={item.selectedSize || 'M'}
+              onChange={(value) => updateSize(item._id || item.id, value)}
+              style={{ width: 100 }}
+            >
+              <Option value="S">S</Option>
+              <Option value="M">M</Option>
+              <Option value="L">L</Option>
+              <Option value="XL">XL</Option>
+              <Option value="XXL">XXL</Option>
+            </Select>
+          </div>
 
-                    <p style={{ color: '#1890ff', fontSize: 18, fontWeight: 600, margin: '8px 0' }}>
-                      ₹{price.toLocaleString()} × {item.quantity} = ₹{itemTotal.toLocaleString()}
-                    </p>
+          {/* Color Selector */}
+          <div style={{ marginTop: 12 }}>
+            <span style={{ marginRight: 8, fontWeight: 500 }}>Color:</span>
+            <Select
+              value={item.selectedColor || 'Black'}
+              onChange={(value) => updateColor(item._id || item.id, value)}
+              style={{ width: 120 }}
+            >
+              <Option value="Black">Black</Option>
+              <Option value="White">White</Option>
+              <Option value="Red">Red</Option>
+              <Option value="Blue">Blue</Option>
+              <Option value="Green">Green</Option>
+            </Select>
+          </div>
 
-                    {/* Size Selector */}
-                    <div style={{ marginTop: 12 }}>
-                      <span style={{ marginRight: 8, fontWeight: 500 }}>Size:</span>
-                      <Select
-                        value={item.selectedSize || 'M'}
-                        onChange={(value) => updateSize(item._id || item.id, value)}
-                        style={{ width: 100 }}
-                      >
-                        <Option value="S">S</Option>
-                        <Option value="M">M</Option>
-                        <Option value="L">L</Option>
-                        <Option value="XL">XL</Option>
-                        <Option value="XXL">XXL</Option>
-                      </Select>
-                    </div>
+          {/* Quantity */}
+          <div style={{ marginTop: 12 }}>
+            <span style={{ marginRight: 8, fontWeight: 500 }}>Quantity:</span>
+            <InputNumber
+              min={1}
+              max={item.stock || 99}
+              value={item.quantity}
+              onChange={(value) => updateQuantity(item._id || item.id, value)}
+            />
+            {item.stock && (
+              <Tag color="green" style={{ marginLeft: 8 }}>
+                {item.stock} in stock
+              </Tag>
+            )}
+          </div>
 
-                    {/* Color Selector */}
-                    <div style={{ marginTop: 12 }}>
-                      <span style={{ marginRight: 8, fontWeight: 500 }}>Color:</span>
-                      <Select
-                        value={item.selectedColor || 'Black'}
-                        onChange={(value) => updateColor(item._id || item.id, value)}
-                        style={{ width: 120 }}
-                      >
-                        <Option value="Black">Black</Option>
-                        <Option value="White">White</Option>
-                        <Option value="Red">Red</Option>
-                        <Option value="Blue">Blue</Option>
-                        <Option value="Green">Green</Option>
-                      </Select> 
-                    </div>
+          {/* Vendor */}
+          {item.vendorName && (
+            <p style={{ marginTop: 8, fontSize: 12, color: '#666' }}>
+              Sold by: <strong>{item.vendorName}</strong>
+            </p>
+          )}
+        </Col>
+      </Row>
+    </Card>
+  );
+})}
 
-                    {/* Quantity */}
-                    <div style={{ marginTop: 12 }}>
-                      <span style={{ marginRight: 8, fontWeight: 500 }}>Quantity:</span>
-                      <InputNumber
-                        min={1}
-                        max={item.stock || 99}
-                        value={item.quantity}
-                        onChange={(value) => updateQuantity(item._id || item.id, value)}
-                      />
-                      {item.stock && (
-                        <Tag color="green" style={{ marginLeft: 8 }}>
-                          {item.stock} in stock
-                        </Tag>
-                      )}
-                    </div>
-
-                    {/* Vendor*/}
-                    {item.vendorName && (
-                      <p style={{ marginTop: 8, fontSize: 12, color: '#666' }}>
-                        Sold by: <strong>{item.vendorName}</strong>
-                      </p>
-                    )}
-                  </Col>
-                </Row>
-              </Card>
-            );
-          })}
 
           <Button danger onClick={clearCart} style={{ marginTop: 16 }}>
             Clear Cart

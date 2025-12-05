@@ -18,6 +18,10 @@ const onLogin = async (values) => {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(values),
+      email: values.email,
+     password: values.password,
+     role: "customer",
+      
     });
     
     const data = await res.json();

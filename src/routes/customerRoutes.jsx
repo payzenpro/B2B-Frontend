@@ -7,14 +7,16 @@ import CustomerDashboard from "../pages/customer/CustomerDashboard.jsx";
 
 
 import CustomerProfile from "../pages/customer/CustomerProfile.jsx";
+import CustomerAddress from "../pages/customer/CustomerAddress.jsx";
+import CustomerWishlist from "../pages/customer/CustomerWishlist.jsx";
 import CustomerCart from "../pages/customer/CustomerCart.jsx";
 import CustomerOrderDetails from "../pages/customer/CustomerOrderDetails.jsx";
 import RoleBasedLayout from "../components/layouts/RoleBasedLayout.jsx";
 
 
 
-function CustomerWishlist() { return <div style={{ padding: '20px' }}><h2>Wishlist</h2></div>; }
-function CustomerAddresses() { return <div style={{ padding: '20px' }}><h2>My Addresses</h2></div>; }
+// function CustomerWishlist() { return <div style={{ padding: '20px' }}><h2>Wishlist</h2></div>; }
+// function CustomerAddresses() { return <div style={{ padding: '20px' }}><h2>My Addresses</h2></div>; }
 
 
  export const customerRoutes = {
@@ -30,8 +32,10 @@ function CustomerAddresses() { return <div style={{ padding: '20px' }}><h2>My Ad
     { path: "cart", element: <CustomerCart /> },
     { path: "orders", element: <CustomerOrders /> },
     { path: "wishlist", element: <CustomerWishlist /> },
-    { path: "addresses", element: <CustomerAddresses /> },
+    
     { path: "profile", element: <CustomerProfile /> },
+    { path: "address", element: <CustomerAddress /> },
+
     
        {
       path: "orders/:id",
