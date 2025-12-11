@@ -5,10 +5,12 @@ import 'antd/dist/reset.css';
 import Home from './pages/Home';
 import Auth from './pages/Auth';
 import Cart from './pages/Cart';
+import Checkout from './pages/Checkout';
+import HomeProducts from './pages/HomeProducts.jsx';
 
-import RoleBasedLayout from './components/layouts/RoleBasedLayout';
 import ProtectedRoute from './components/ProtectedRoute';
-import ProductDetails from './pages/ProductDetails';
+
+
 
 
 
@@ -26,10 +28,11 @@ const router = createBrowserRouter([
   { path: '/', element: <Home /> },
   { path: '/auth', element: <Auth /> },
   { path: '/cart', element: <Cart />},
-  {path:  '/product/:id',  element: <ProductDetails />},
+   { path: '/checkout', element: <Checkout />},
   { path: '/login/customer', element: <CustomerLogin />},
   { path: '/login/vendor', element: <VendorLogin />} ,
   { path: '/login/superadmin', element: <SuperadminLogin />} ,
+  { path: '/products', element: <HomeProducts /> }, 
 
   adminRoutes, vendorRoutes, customerRoutes,  
 

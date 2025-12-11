@@ -61,8 +61,6 @@ export default function Coupons() {
         message.error('Please login first!');
         return;
       }
-
-      // Backend expects: discount, discountType ('percentage' or 'fixed'), minOrderValue, validFrom, validUntil
       const payload = {
         code: values.code.toUpperCase(),
         discount: values.discountValue,

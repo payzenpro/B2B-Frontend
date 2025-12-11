@@ -117,12 +117,12 @@ export default function VendorCoupons() {
         </div>
       ),
     },
-    {
-      title: 'Description',
-      dataIndex: 'description',
-      key: 'description',
-      width: 200,
-    },
+    // {
+    //   title: 'Description',
+    //   dataIndex: 'description',
+    //   key: 'description',
+    //   width: 200,
+    // },
     {
       title: 'Status',
       dataIndex: 'status',
@@ -238,9 +238,9 @@ export default function VendorCoupons() {
             <Input placeholder="e.g. SUMMER50" />
           </Form.Item>
 
-          <Form.Item name="description" label="Description" rules={[{ required: true }]}>
+          {/* <Form.Item name="description" label="Description" rules={[{ required: true }]}>
             <Input placeholder="Coupon description" />
-          </Form.Item>
+          </Form.Item> */}
 
           <Form.Item label="Discount">
             <Row gutter={12}>

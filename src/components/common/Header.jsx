@@ -6,7 +6,6 @@ import { useNavigate } from 'react-router-dom';
 export default function Header({ filters = {}, onFilterChange = () => {}, onReset = () => {}, showFilters = true }) {
   const navigate = useNavigate();
 
-  // Get user role and initial
   let userRole = 'USER';
   let userInitial = 'U';
   try {
@@ -27,7 +26,6 @@ export default function Header({ filters = {}, onFilterChange = () => {}, onRese
     navigate('/auth');
   };
 
-  // Render component
   return (
     <div
       style={{
@@ -41,15 +39,13 @@ export default function Header({ filters = {}, onFilterChange = () => {}, onRese
         minHeight: 64,
       }}
     >
-      {/* Search Input */}
+ 
       <Input
         prefix={<SearchOutlined />}
         placeholder="Search Menu... (Ctrl+K)"
         style={{ width: 200, height: 36 }}
         allowClear
       />
-
-       {/* Store Filter  */}
       {showFilters && filters.stores && (
         <Select
           value={filters.selectedStore}
@@ -59,7 +55,7 @@ export default function Header({ filters = {}, onFilterChange = () => {}, onRese
         />
       )}
 
-      {/* Zone Filter */}
+  
       {showFilters && filters.zones && (
         <Select
           value={filters.selectedZone}
@@ -69,7 +65,7 @@ export default function Header({ filters = {}, onFilterChange = () => {}, onRese
         />
       )}
 
-      {/* Period Filter */}
+     
       {showFilters && filters.periods && (
         <Select
           value={filters.selectedPeriod}
@@ -79,7 +75,7 @@ export default function Header({ filters = {}, onFilterChange = () => {}, onRese
         />
       )}
 
-      {/* Reset Button */}
+      
       {showFilters && (
         <Button icon={<FilterOutlined />} onClick={onReset} style={{ height: 36 }}>
           Reset
@@ -88,8 +84,6 @@ export default function Header({ filters = {}, onFilterChange = () => {}, onRese
 
      
       <div style={{ flex: 1 }} />
-
-      {/* Avatar Circle and Role Display (No Email) */}
       <div
         style={{
           display: 'flex',

@@ -1,22 +1,16 @@
 import ProtectedRoute from "../components/ProtectedRoute.jsx";
-
-import CustomerProducts from "../components/products/CustomerProducts.jsx";
 import CustomerOrders from "../components/orders/CustomerOrders.jsx";
 
 import CustomerDashboard from "../pages/customer/CustomerDashboard.jsx";
+import CustomerOrderDetailsView from '../pages/customer/CustomerOrderDetailsView.jsx';
 
 
 import CustomerProfile from "../pages/customer/CustomerProfile.jsx";
 import CustomerAddress from "../pages/customer/CustomerAddress.jsx";
 import CustomerWishlist from "../pages/customer/CustomerWishlist.jsx";
 import CustomerCart from "../pages/customer/CustomerCart.jsx";
-import CustomerOrderDetails from "../pages/customer/CustomerOrderDetails.jsx";
 import RoleBasedLayout from "../components/layouts/RoleBasedLayout.jsx";
 
-
-
-// function CustomerWishlist() { return <div style={{ padding: '20px' }}><h2>Wishlist</h2></div>; }
-// function CustomerAddresses() { return <div style={{ padding: '20px' }}><h2>My Addresses</h2></div>; }
 
 
  export const customerRoutes = {
@@ -28,18 +22,14 @@ import RoleBasedLayout from "../components/layouts/RoleBasedLayout.jsx";
   ),
   children: [
       { index: true, element: <CustomerDashboard /> },  
-    { path: "products", element: <CustomerProducts/> },
+    
     { path: "cart", element: <CustomerCart /> },
     { path: "orders", element: <CustomerOrders /> },
+           
+     {  path: "orders/:orderId", element: <CustomerOrderDetailsView /> },
     { path: "wishlist", element: <CustomerWishlist /> },
     
     { path: "profile", element: <CustomerProfile /> },
     { path: "address", element: <CustomerAddress /> },
-
-    
-       {
-      path: "orders/:id",
-      element: <CustomerOrderDetails />,
-    },
   ]
 };

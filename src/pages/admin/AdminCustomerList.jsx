@@ -59,12 +59,9 @@ export default function AdminCustomerList() {
     customer.phone?.toLowerCase().includes(searchText.toLowerCase())
   );
 
-  // const handleViewClick = (customerId) => {
-  //   navigate(`/customer-list/${customerId}/dashboard`);
-  // };
 const handleViewClick = (customer) => {
   localStorage.setItem("selectedCustomer", JSON.stringify(customer));
-  navigate(`/dashboard/customer-list/${customer._id}/dashboard`);  // ✅ /dashboard add karo
+  navigate(`/dashboard/customer-list/${customer._id}/dashboard`);  
 };
 
 
@@ -118,7 +115,7 @@ const handleViewClick = (customer) => {
       type="primary" 
       size="small" 
       icon={<EyeOutlined />}
-      onClick={() => handleViewClick(record)}  // poora record
+      onClick={() => handleViewClick(record)} 
     >
       View
     </Button>

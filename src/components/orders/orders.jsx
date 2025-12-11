@@ -1,17 +1,4 @@
-import {
-  Table,
-  Card,
-  Tag,
-  Button,
-  Empty,
-  Space,
-  Popconfirm,
-  message,
-  Modal,
-  Form,
-  Input,
-  Select,
-} from "antd";
+import {Table, Card, Tag, Button, Empty, Space, Popconfirm, message, Modal, Form, Input, Select} from "antd";
 import { useEffect, useState } from "react";
 import { getOrders, deleteOrder, createOrder, updateOrder } from "../../app/api";
 
@@ -26,7 +13,7 @@ export default function Orders() {
 
   const [form] = Form.useForm();
 
-  // 🔹 Get user from localStorage safely
+ 
   let user = null;
   try {
     const raw = localStorage.getItem("user");
@@ -38,7 +25,6 @@ export default function Orders() {
 
   const role = (user?.role || "").toLowerCase();
 
-  // 🔹 Orders fetch
   const loadOrders = async () => {
     try {
       const data = await getOrders();
@@ -56,14 +42,14 @@ export default function Orders() {
     loadOrders();
   }, []);
 
-  // 🔹 Open Add modal
+ 
   const handleAdd = () => {
     setEditingOrder(null);
     form.resetFields();
     setIsModalOpen(true);
   };
 
-  // 🔹 Open Edit modal
+  
   const handleEdit = (order) => {
     setEditingOrder(order);
     form.setFieldsValue({
@@ -76,15 +62,15 @@ export default function Orders() {
     setIsModalOpen(true);
   };
 
-  // 🔹 Submit form – Add / Edit dono yahi se
+
   const handleFormFinish = async (values) => {
     try {
       if (editingOrder) {
-        // UPDATE
+        
         await updateOrder(editingOrder._id, values);
         message.success("Order updated successfully");
       } else {
-        // CREATE
+       
         await createOrder(values);
         message.success("Order created successfully");
       }
@@ -97,7 +83,6 @@ export default function Orders() {
     }
   };
 
-  // 🔹 DELETE handler
   const handleDelete = async (orderId) => {
     try {
       await deleteOrder(orderId);
@@ -108,8 +93,6 @@ export default function Orders() {
       message.error("Failed to delete order");
     }
   };
-
-  // 🔹 UPDATE STATUS (simple prompt se)
   const handleUpdateStatus = async (order) => {
     const newStatus = window.prompt(
       "Enter new status (pending, processing, delivered, canceled, refunded):",
@@ -223,7 +206,7 @@ export default function Orders() {
         )}
       </Card>
 
-      {/* 🔹 Add/Edit Modal */}
+     
       <Modal
         title={editingOrder ? "Edit Order" : "Add Order"}
         open={isModalOpen}

@@ -1,119 +1,7 @@
-
-// import { useState, useEffect } from 'react';
-// import { getProduct, createProduct } from '../../app/api';
-// import { Table, Button, Modal, Form, Input, InputNumber, message } from 'antd';
-
-// export default function Products() {
-//   const [products, setProducts] = useState([]);
-//   const [loading, setLoading] = useState(true);
-//   const [isModalOpen, setIsModalOpen] = useState(false);
-//   const [form] = Form.useForm();
-
-//   useEffect(() => {
-//     fetchProducts();
-//   }, []);
-
-//   const fetchProducts = async () => {
-//     try {
-//       const data = await getProduct();
-//       setProducts(data);
-//     } catch (error) {
-//       console.error('Error:', error);
-//       message.error('Failed to fetch products');
-//     } finally {
-//       setLoading(false);
-//     }
-//   };
-
-//   const handleCreateProduct = async (values) => {
-//     try {
-//       await createProduct(values);
-//       message.success('Product created successfully');
-//       form.resetFields();
-//       setIsModalOpen(false);
-//       fetchProducts();
-//     } catch (error) {
-//       message.error('Failed to create product');
-//     }
-//   };
-
-//   const columns = [
-//     { title: 'Name', dataIndex: 'name', key: 'name' },
-//     { title: 'Category', dataIndex: 'category', key: 'category' },
-//     { title: 'Price', dataIndex: 'price', key: 'price', render: (p) => `₹${p}` },
-//     { title: 'Stock', dataIndex: 'stock', key: 'stock' },
-//     { title: 'Status', dataIndex: 'status', key: 'status' },
-//     {title: 'images ' ,  dataIndex: 'images',key: 'images '}
-//   ];
-
-//   return (
-//     <div>
-//       <div style={{ marginBottom: 16 }}>
-//         <Button type="primary" onClick={() => setIsModalOpen(true)}>
-//           Add Product
-//         </Button>
-//       </div>
-//       <Table dataSource={products} columns={columns} loading={loading} rowKey="_id" />
-
-//       <Modal
-//         title="Add Product"
-//         open={isModalOpen}
-//         onOk={() => form.submit()}
-//         onCancel={() => setIsModalOpen(false)}
-//       >
-//         <Form form={form} layout="vertical" onFinish={handleCreateProduct}>
-//           <Form.Item name="name" label="Product Name" rules={[{ required: true }]}>
-//             <Input />
-//           </Form.Item>
-//           <Form.Item name="category" label="Category" rules={[{ required: true }]}>
-//             <Input />
-//           </Form.Item>
-//           <Form.Item name="price" label="Price" rules={[{ required: true }]}>
-//             <InputNumber />
-//           </Form.Item>
-//           <Form.Item name="stock" label="Stock" rules={[{ required: true }]}>
-//             <InputNumber />
-//           </Form.Item>
-//            <Form.Item
-//   name="image"
-//   label="Image URL"
-//   rules={[{ required: true, message: "Please enter image URL" }]}
-// >
-//   <Input />
-// </Form.Item>
-
-//         </Form>
-//       </Modal>
-//     </div>
-//   );
-// }
-
-
 import { useState, useEffect } from "react";
-import {
-  Table,
-  Button,
-  Modal,
-  Form,
-  Input,
-  InputNumber,
-  Select,
-  Space,
-  message,
-  Popconfirm,
-  Tag,
-} from "antd";
-import {
-  PlusOutlined,
-  EditOutlined,
-  DeleteOutlined,
-} from "@ant-design/icons";
-import {
-  getProduct,
-  createProduct,
-  updateProduct,
-  deleteProduct,
-} from "../../app/api";
+import {Table,Button,Modal,Form,Input,InputNumber,Select,Space,message,Popconfirm,Tag,} from "antd";
+import { PlusOutlined, EditOutlined, DeleteOutlined,} from "@ant-design/icons";
+import {getProduct,createProduct,updateProduct,deleteProduct} from "../../app/api";
 
 const { Option } = Select;
 const { TextArea } = Input;
@@ -130,7 +18,7 @@ export default function SuperadminProducts() {
 
   const fetchProducts = async () => {
     try {
-      const data = await getProduct();          // expects { success, data: [...] }
+      const data = await getProduct();          
       setProducts(Array.isArray(data) ? data : []);
     } catch (err) {
       console.error(err);
@@ -138,9 +26,6 @@ export default function SuperadminProducts() {
     }
   };
 
-  // ----- UTIL: form <-> schema mapping -----
-
-  // DB -> form
   const mapProductToForm = (p) => ({
     name: p.name,
     brand: p.brand,
@@ -162,7 +47,7 @@ export default function SuperadminProducts() {
     status: p.status || "active",
   });
 
-  // form -> DB (schema)
+
   const mapFormToPayload = (v) => {
     // colors: "Blue, Red" -> ["Blue","Red"]
     const colorsArr = v.colors
@@ -172,7 +57,7 @@ export default function SuperadminProducts() {
           .filter(Boolean)
       : [];
 
-    // sizes: "M:10, L:5" -> [{label:"M",stock:10}, {label:"L",stock:5}]
+    
     const sizesArr = v.sizesText
       ? v.sizesText
           .split(",")
@@ -236,7 +121,7 @@ export default function SuperadminProducts() {
         message.success("Product updated");
       } else {
         res = await createProduct(payload);
-        if (!res.success) throw new Error(res.message || "Create failed");
+        // if (!res.success) throw new Error(res.message || "Create failed");
         message.success("Product created");
       }
 
@@ -431,6 +316,13 @@ export default function SuperadminProducts() {
               <Option value="T-Shirts">T-Shirts</Option>
               <Option value="Electronics">Electronics</Option>
               <Option value="Fashion">Fashion</Option>
+               <option value="Home & Furniture">Home & Furniture</option>
+              <option value= "Appliances">Appliances</option>
+              <option value= "Beauty">Beauty</option>
+             <option value= "Food & Drinks">Food & Drinks</option>
+              <option value= "Grocery">Grocery</option>
+             <option value= "Stationary">Stationary</option>
+              <option value= "Toys">Toys</option>
             </Select>
           </Form.Item>
 
@@ -492,10 +384,10 @@ export default function SuperadminProducts() {
             <Input placeholder="https://..." />
           </Form.Item>
 
-          {/* Colors & sizes (simple text inputs) */}
+          {/* Colors & sizes */}
           <Form.Item
             name="colors"
-            label="Colors (comma separated)"
+            label="Colors"
             tooltip="Example: Blue, Red, Black"
           >
             <Input />

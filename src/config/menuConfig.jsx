@@ -1,13 +1,4 @@
-import {
-  DashboardOutlined,
-  ShoppingCartOutlined,
-  ShoppingOutlined,
-  UserOutlined,
-  TagsOutlined,
-  GiftOutlined,
-  SettingOutlined,
-  HomeOutlined,
-} from '@ant-design/icons';
+import {DashboardOutlined, ShoppingCartOutlined, ShoppingOutlined, UserOutlined, TagsOutlined, GiftOutlined, SettingOutlined, HomeOutlined,} from '@ant-design/icons';
 import { icons } from 'antd/es/image/PreviewGroup';
 
 
@@ -61,8 +52,8 @@ export const vendorMenuItems = [
    { key: '/vendor/dashboard/stores', icon: <SettingOutlined />, label: 'Store List' },
    { key: '/vendor/dashboard/add stores', icon: <SettingOutlined />, label: 'Add Stores' },
     { key: '/vendor/dashboard/shop', icon: <SettingOutlined />, label: 'My Shop' },
-    { key: '/vendor/reviews', icon: <SettingOutlined />, label:  'Reviews'},
-    { key: '/vendor/chat', icon: <SettingOutlined />, label: 'Chat' },
+    // { key: '/vendor/reviews', icon: <SettingOutlined />, label:  'Reviews'},
+    // { key: '/vendor/chat', icon: <SettingOutlined />, label: 'Chat' },
    
 ];
 

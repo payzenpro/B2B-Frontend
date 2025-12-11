@@ -31,7 +31,7 @@ export default function CustomerOrders() {
         return;
       }
 
-      // simple: backend { success, data: [...] }
+
       const list = data.success && Array.isArray(data.data) ? data.data : [];
       setOrders(list);
     } catch (err) {

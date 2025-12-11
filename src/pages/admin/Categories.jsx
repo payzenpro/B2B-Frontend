@@ -18,7 +18,7 @@ export default function Categories() {
     inactive: 'red'
   };
 
-  // Fetch categories from API on component mount
+
   useEffect(() => {
     fetchCategories();
   }, []);
@@ -63,7 +63,7 @@ export default function Categories() {
         message.success('Category created!');
       }
       
-      fetchCategories(); // Refresh list after save
+      fetchCategories();
       setModalOpen(false);
       form.resetFields();
       setEditingId(null);

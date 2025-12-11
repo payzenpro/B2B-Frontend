@@ -5,19 +5,16 @@ import Orders from "../components/orders/orders.jsx";
 import Users from "../pages/Users.jsx";
 
 
-import FlashSales from "../pages/admin/FlashSales.jsx";
+// import FlashSales from "../pages/admin/FlashSales.jsx";
  
 import Stores from "../pages/admin/Stores.jsx";
-import AddStores from "../pages/admin/AddStores.jsx";
+// import AddStores from "../pages/admin/AddStores.jsx";
 import AdminVendorList from "../pages/admin/AdminVendorList.jsx";
 import RefundList from "../pages/admin/RefundList.jsx";
 import BannerList from "../pages/admin/BannerList.jsx";
-// import AdminVendorDashboard from "../pages/admin/AdminVendorDashboard.jsx";
 import AdminCustomerList from "../pages/admin/AdminCustomerList.jsx";
-import AdminCustomerDashboard from "../pages/admin/AdminCustomerDashboard.jsx";
 import AdminVendorDashboardView from "../pages/admin/AdminVendorDashboardView.jsx";
 import AdminCustomerDashboardView from "../pages/admin/AdminCustomerDashboardView.jsx";
-import Attributes from "../pages/admin/Attributes.jsx";
 import Categories from "../pages/admin/Categories.jsx";
 import Coupons from "../pages/admin/Coupons.jsx";
 import RoleBasedLayout from "../components/layouts/RoleBasedLayout.jsx";
@@ -36,14 +33,14 @@ export const adminRoutes = {
     { path: "users", element: <Users /> },            
     { path: "orders", element: <Orders /> },         
     { path: "refunds", element: <RefundList /> },
-    { path: "flash-sales", element: <FlashSales /> },
+    // { path: "flash-sales", element: <FlashSales /> },
     { path: "banners", element: <BannerList /> },
     { path: "coupons", element: <Coupons /> },
     { path: "categories", element: <Categories /> },
-    { path: "attributes", element: <Attributes /> },
+    
     { path: "products", element: <Products /> },
     { path: "stores", element: <Stores /> },
-    { path: "stores/new", element: <AddStores /> },
+    // { path: "stores/new", element: <AddStores /> },
     { path: "vendor-list", element: <AdminVendorList /> },
     { path: "customer-list", element: <AdminCustomerList /> },
   

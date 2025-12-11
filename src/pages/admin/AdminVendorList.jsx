@@ -133,20 +133,7 @@ const handleViewClick = (vendor) => {
       key: 'status',
       render: (status) => <Tag color={status === 'active' ? 'green' : 'red'}>{status || 'active'}</Tag>
     },
-    // {
-    //   title: 'Action',
-    //   key: 'action',
-    //   render: (_, record) => (
-    //     <Button 
-    //       type="primary" 
-    //       size="small" 
-    //       icon={<EyeOutlined />}
-    //       onClick={() => handleViewClick(record._id)}  
-    //     >
-    //       View
-    //     </Button>
-    //   )
-    // }
+   
     {
   title: 'Action',
   key: 'action',
@@ -155,7 +142,7 @@ const handleViewClick = (vendor) => {
       type="primary" 
       size="small" 
       icon={<EyeOutlined />}
-      onClick={() => handleViewClick(record)}  // poora vendor record pass kar rahe ho
+      onClick={() => handleViewClick(record)}  
     >
       View
     </Button>

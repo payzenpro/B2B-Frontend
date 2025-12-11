@@ -18,7 +18,7 @@ export default function AdminCustomerDashboard() {
 
   const fetchCustomerData = async () => {
     try {
-      console.log('📡 Fetching customer data for ID:', customerId);
+      console.log(' Fetching customer data for ID:', customerId);
       
       const token = localStorage.getItem('token');
       
@@ -62,7 +62,7 @@ export default function AdminCustomerDashboard() {
         setCustomer(null);
       }
     } catch (error) {
-      console.error('❌ Error:', error);
+      console.error(' Error:', error);
       message.error('Failed to load customer data');
     } finally {
       setLoading(false);
@@ -186,7 +186,7 @@ export default function AdminCustomerDashboard() {
             <Statistic
               title="Rating"
               value={customer.rating || 0}
-              suffix="⭐"
+              suffix=""
               prefix={<StarOutlined />}
               valueStyle={{ color: '#faad14' }}
             />
@@ -205,7 +205,7 @@ export default function AdminCustomerDashboard() {
       </Row>
 
       {/* Customer Details */}
-      <Card title="📋 Customer Information" style={{ marginBottom: '20px' }}>
+      <Card title=" Customer Information" style={{ marginBottom: '20px' }}>
         <Descriptions bordered column={2}>
           <Descriptions.Item label="Full Name" span={2}>
             <strong>{customer.name}</strong>
@@ -242,7 +242,7 @@ export default function AdminCustomerDashboard() {
       </Card>
 
       {/* Orders Table */}
-      <Card title="📦 Recent Orders">
+      <Card title=" Recent Orders">
         {orders.length > 0 ? (
           <Table
             columns={orderColumns}
@@ -257,7 +257,7 @@ export default function AdminCustomerDashboard() {
       </Card>
 
       {/* Actions */}
-      <Card title="🚀 Actions" style={{ marginTop: '20px' }}>
+      <Card title=" Actions" style={{ marginTop: '20px' }}>
         <Button type="primary" style={{ marginRight: '10px' }}>
           View All Orders
         </Button>

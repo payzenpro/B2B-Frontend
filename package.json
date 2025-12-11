@@ -10,14 +10,17 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@ant-design/charts": "^2.6.6",
     "@ant-design/icons": "^6.1.0",
     "antd": "^5.29.1",
     "axios": "^1.13.1",
+    "chart.js": "^4.5.1",
     "dayjs": "^1.11.19",
     "react": "^18.3.1",
+    "react-chartjs-2": "^5.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^7.9.6",
-    "recharts": "^3.3.0"
+    "recharts": "^3.5.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.36.0",

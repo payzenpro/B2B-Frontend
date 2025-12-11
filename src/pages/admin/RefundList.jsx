@@ -55,11 +55,6 @@ export default function RefundList() {
       console.error('Status:', error.response?.status);
       console.error(' Data:', error.response?.data);
       
-      // if (error.response?.status === 401) {
-      //   message.error(' Session expired! Please login again.');
-      // } else {
-      //   message.error('Failed to load refunds');
-      // }
       
       setRefunds([]);
     } finally {
