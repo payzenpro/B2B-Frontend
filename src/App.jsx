@@ -9,12 +9,6 @@ import Checkout from './pages/Checkout';
 import HomeProducts from './pages/HomeProducts.jsx';
 
 import ProtectedRoute from './components/ProtectedRoute';
-
-
-
-
-
-
 import { adminRoutes } from './routes/adminRoutes';
 import { vendorRoutes } from './routes/vendorRoutes';
 import { customerRoutes } from './routes/customerRoutes';

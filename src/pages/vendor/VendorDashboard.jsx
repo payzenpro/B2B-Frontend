@@ -80,7 +80,7 @@ export default function VendorDashboard() {
       }
 
       try {
-        const productsRes = await fetch(`${API_BASE}/products`, {
+        const productsRes = await fetch(`${API_BASE}/product`, {
           headers: {
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json'

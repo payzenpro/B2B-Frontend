@@ -23,22 +23,30 @@ export default function VendorProductSetup() {
   useEffect(() => {
     fetchProducts();
   }, []);
+
 async function fetchProducts() {
   try {
     const token = localStorage.getItem("token");
-    const res = await fetch(`${API_BASE}/product`, {
+    const res = await fetch(`${API_BASE}/vendor`, {  
       headers: { Authorization: `Bearer ${token}` },
     });
     
+    console.log("HTTP:", res.status);
     const data = await res.json();
-    console.log(" Fetched ALL products:", data);
-    setProducts(Array.isArray(data.data) ? data.data : []);
+    console.log(" Response:", data);
+
+    if (data.success && Array.isArray(data.data)) {
+      setProducts(data.data);
+      console.log(" Loaded:", data.data.length);
+    } else {
+      setProducts([]);
+    }
   } catch (error) {
-    message.error('Failed to load products');
-    console.error(error);
+    message.error("Failed to load");
+    console.error(" Error:", error);
+    setProducts([]);
   }
 }
-
 
   const mapFormToPayload = (v) => {
     const colorsArr = v.colors

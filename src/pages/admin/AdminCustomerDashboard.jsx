@@ -28,7 +28,6 @@ export default function AdminCustomerDashboard() {
         return;
       }
 
-      // ✅ Fetch customer details
       const response = await fetch(`${API_BASE_URL}/auth/user/${customerId}`, {
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -37,19 +36,11 @@ export default function AdminCustomerDashboard() {
       });
 
       const data = await response.json();
-      console.log('✅ Customer data:', data);
+      console.log(' Customer data:', data);
       
       if (data.success) {
         setCustomer(data.data);
-        
-        // TODO: Fetch real orders when API is ready
-        // const ordersResponse = await fetch(`${API_BASE_URL}/orders?customerId=${customerId}`, {
-        //   headers: { 'Authorization': `Bearer ${token}` }
-        // });
-        // const ordersData = await ordersResponse.json();
-        // if (ordersData.success) setOrders(ordersData.data);
-        
-        // Dummy orders for now
+      
         setOrders([
           { _id: '1', orderId: '#ORD001', amount: 5000, status: 'delivered', date: '2025-11-05' },
           { _id: '2', orderId: '#ORD002', amount: 8500, status: 'pending', date: '2025-11-04' },

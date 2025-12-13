@@ -9,7 +9,7 @@ const getAuthHeader = () => {
 
 
 
-// PRODUCTS
+// ==================== PRODUCTS ====================
 export const getProduct = async () => {
   try {
     const response = await fetch(`${API_BASE}/product`, {
@@ -76,7 +76,7 @@ export const deleteProduct = async (id) => {
 
 
 
-//  ORDERS 
+// ==================== ORDERS ====================
 export const getOrders = async () => {
   try {
     const response = await fetch(`${API_BASE}/orders`, {
@@ -158,7 +158,7 @@ export const updateOrder = async (id, data) => {
 };
 
 
-// VENDORS 
+// ==================== VENDORS ====================
 export const getVendors = async () => {
   try {
     const response = await fetch(`${API_BASE}/vendor`, {
@@ -173,7 +173,7 @@ export const getVendors = async () => {
   }
 };
 
-//  CUSTOMERS 
+// ==================== CUSTOMERS ====================
 export const getCustomers = async () => {
   try {
     const response = await fetch(`${API_BASE}/customers`, {
@@ -232,7 +232,7 @@ export const deleteCustomer = async (id) => {
   }
 };
 
-//  BANNERS
+// ==================== BANNERS ====================
 export const getBanners = async () => {
   try {
     const headers = getAuthHeader();
@@ -302,7 +302,7 @@ export const deleteBanner = async (id) => {
   }
 };
 
-//  COUPONS 
+// ==================== COUPONS ====================
 export const getCoupons = async () => {
   try {
     const response = await fetch(`${API_BASE}/coupons`, {
@@ -361,7 +361,7 @@ export const deleteCoupon = async (id) => {
   }
 };
 
-//  REFUNDS 
+// ==================== REFUNDS ====================
 export const getRefunds = async () => {
   try {
     const response = await fetch(`${API_BASE}/refunds`, {
@@ -432,7 +432,7 @@ export const deleteRefund = async (id) => {
   }
 };
 
-//  CATEGORIES 
+// ==================== CATEGORIES ====================
 export const getCategories = async () => {
   try {
     const response = await fetch(`${API_BASE}/categories`, {
@@ -505,7 +505,7 @@ export const deleteCategories = async (id) => {
   }
 };
 
-// ATTRIBUTES 
+// ==================== ATTRIBUTES ====================
 export const getAttributes = async () => {
   try {
     const response = await fetch(`${API_BASE}/attributes`, { 
@@ -578,7 +578,7 @@ export const deleteAttribute = async (id) => {
   }
 };
 
-// STORES
+// ==================== STORES ====================
 export const getStores = async () => {
   try {
     const response = await fetch(`${API_BASE}/stores`, { 
@@ -652,7 +652,7 @@ export const deleteStore = async (id) => {
 };
 
 
-//  FLASHSALES 
+// ==================== FLASHSALES ====================
 export const getFlashsales = async () => {
   try {
      const response = await fetch(`${API_BASE}/flashsales`, { headers: getAuthHeader() });
@@ -723,7 +723,7 @@ export const deleteFlashsale = async (id) => {
   }
 };
 
-// DASHBOARD
+// ==================== DASHBOARD ====================
 export const getDashboard = async () => {
   try {
     const response = await fetch(`${API_BASE}/dashboard`, {
@@ -740,7 +740,7 @@ export const getDashboard = async () => {
 
 
 
-//  VENDOR SECTION 
+// ==================== VENDOR SECTION ====================
 export const getVendorProfile = async () => {
   const response = await fetch(`${API_BASE}/vendor/profile`, {
     headers: getAuthHeader(),
@@ -789,7 +789,7 @@ export const getVendorBanners = async () => {
 };
 
 
-//  PUSH NOTIFICATIONS 
+// ==================== PUSH NOTIFICATIONS ====================
 export const getPushNotifications = async () => {
   try {
     const response = await fetch(`${API_BASE}/pushNotifications`, {
@@ -848,7 +848,7 @@ export const deletePushNotification = async (id) => {
   }
 };
 
-//  VENDOR FLASHSALES 
+// ==================== VENDOR FLASHSALES ====================
 export const getVendorFlashsale = async () => {
   try {
     const response = await fetch(`${API_BASE}/vendor/flashsales`, {
@@ -944,7 +944,7 @@ export const getVendorStores = async () => {
   }
 };
 
-//  Create vendor store
+// ✅ Create vendor store
 export const createVendorStore = async (storeData) => {
   try {
     const response = await fetch(`${API_BASE}/stores`, {  
@@ -967,7 +967,7 @@ export const createVendorStore = async (storeData) => {
   }
 };
 
-//  Update vendor store
+// ✅ Update vendor store
 export const updateVendorStore = async (id, storeData) => {
   try {
     const response = await fetch(`${API_BASE}/stores/${id}`, {  
@@ -1126,7 +1126,7 @@ export const getProfile = async () => {
   }
 };
 
-//  VENDOR SHOP
+// ==================== VENDOR SHOP (MY SHOP) ====================
 export const getVendorShop = async () => {
   try {
     const response = await fetch(`${API_BASE_URL}/vendor/shop`, {
