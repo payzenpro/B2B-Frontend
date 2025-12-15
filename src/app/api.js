@@ -12,7 +12,7 @@ const getAuthHeader = () => {
 // ==================== PRODUCTS ====================
 export const getProduct = async () => {
   try {
-    const response = await fetch(`${API_BASE}/product`, {
+    const response = await fetch(`${API_BASE}/products`, {
       headers: getAuthHeader(),
     });
     if (!response.ok) {
@@ -30,7 +30,7 @@ export const getProduct = async () => {
 
 export const createProduct = async (productData) => {
   try {
-    const response = await fetch(`${API_BASE}/product`, {
+    const response = await fetch(`${API_BASE}/products`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -46,7 +46,7 @@ export const createProduct = async (productData) => {
 
 export const updateProduct = async (id, productData) => {
   try {
-    const response = await fetch(`${API_BASE}/product/${id}`, {
+    const response = await fetch(`${API_BASE}/products/${id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -62,7 +62,7 @@ export const updateProduct = async (id, productData) => {
 
 export const deleteProduct = async (id) => {
   try {
-    const response = await fetch(`${API_BASE}/product/${id}`, {
+    const response = await fetch(`${API_BASE}/products/${id}`, {
       method: 'DELETE',
       headers: getAuthHeader(),
     });
@@ -71,9 +71,6 @@ export const deleteProduct = async (id) => {
     throw error;
   }
 };
-
-
-
 
 
 // ==================== ORDERS ====================

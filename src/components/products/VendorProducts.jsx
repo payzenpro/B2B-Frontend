@@ -27,7 +27,8 @@ export default function VendorProductSetup() {
 async function fetchProducts() {
   try {
     const token = localStorage.getItem("token");
-    const res = await fetch(`${API_BASE}/vendor`, {  
+    // const res = await fetch(`${API_BASE}/vendor`, {  
+       const res = await fetch(`${API_BASE}/products`, {  
       headers: { Authorization: `Bearer ${token}` },
     });
     
@@ -154,7 +155,7 @@ async function fetchProducts() {
 
       let res;
       if (editingId) {
-        res = await fetch(`${API_BASE}/product/${editingId}`, {
+        res = await fetch(`${API_BASE}/products/${editingId}`, {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
@@ -163,7 +164,7 @@ async function fetchProducts() {
           body: JSON.stringify(payload),
         });
       } else {
-        res = await fetch(`${API_BASE}/product`, {
+        res = await fetch(`${API_BASE}/products`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -194,7 +195,7 @@ async function fetchProducts() {
   const handleDelete = async (id) => {
     try {
       const token = localStorage.getItem("token");
-      const res = await fetch(`${API_BASE}/product/${id}`, {
+      const res = await fetch(`${API_BASE}/products/${id}`, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` },
       });
