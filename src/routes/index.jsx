@@ -4,6 +4,7 @@ import Home from './pages/Home';
 import Auth from './pages/Auth';
 import Cart from './pages/Cart';
 import BuyNow from "./pages/BuyNow";
+import Products from './pages/Products';
 
 
 import RoleBasedLayout from './layouts/RoleBasedLayout';
@@ -24,7 +25,8 @@ const router = createBrowserRouter([
    { path: '/cart', element: <Cart />},
    {path: '/buy-now', element: <BuyNow />},
 
-    
+  { path: '/products', element: <Products /> }, // ⬅️ ADD THIS
+
   
 
 
